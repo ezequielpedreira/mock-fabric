@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import fabricLogo from "@/assets/fabric-logo.webp.asset.json";
 
 interface HorizontalNavProps {
   language: Language;
