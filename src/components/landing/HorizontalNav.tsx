@@ -19,22 +19,14 @@ interface HorizontalNavProps {
   onLanguageChange?: (lang: Language) => void;
 }
 
-// Microsoft Fabric inspired icon (four-segment diamond)
+// Microsoft Fabric official logo
 function FabricIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id="fab-a" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#0ea5e9" />
-          <stop offset="100%" stopColor="#6366f1" />
-        </linearGradient>
-        <linearGradient id="fab-b" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#22d3ee" />
-          <stop offset="100%" stopColor="#8b5cf6" />
-        </linearGradient>
-      </defs>
-      <path d="M16 2 L30 16 L16 30 L2 16 Z" fill="url(#fab-a)" opacity="0.85" />
-      <path d="M16 8 L24 16 L16 24 L8 16 Z" fill="url(#fab-b)" />
+      <path d="M16 0L24 8L16 16L8 8z" fill="#F24F23" />
+      <path d="M8 8L16 16L8 24L0 16z" fill="#00A4EF" />
+      <path d="M24 8L32 16L24 24L16 16z" fill="#7FBA00" />
+      <path d="M16 16L24 24L16 32L8 24z" fill="#FFB900" />
     </svg>
   );
 }
