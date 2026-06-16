@@ -156,7 +156,15 @@ export function QuestionCard({
 
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
-      <div className="max-w-3xl mx-auto animate-fade-in">
+      <div
+        className={`max-w-3xl mx-auto animate-fade-in rounded-2xl transition-all duration-300 ${
+          isChecked
+            ? isCorrect
+              ? "ring-4 ring-success/60 bg-success/5 shadow-[0_0_40px_-10px_hsl(var(--success)/0.5)] p-4 sm:p-6"
+              : "ring-4 ring-destructive/50 bg-destructive/5 p-4 sm:p-6"
+            : ""
+        }`}
+      >
         {/* Question number & category */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -170,12 +178,17 @@ export function QuestionCard({
         </div>
 
         {/* Scenario */}
-        <div className="bg-card rounded-xl border border-border p-6 mb-6 shadow-sm">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-warning mt-0.5 shrink-0" />
-            <div>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">{t.scenario}</h3>
-              <p className="text-foreground leading-relaxed">{question.scenario[language]}</p>
+        <div className="relative bg-gradient-to-br from-warning/10 via-card to-card rounded-2xl border-2 border-warning/40 p-6 sm:p-8 mb-8 shadow-lg overflow-hidden">
+          <div className="absolute top-0 left-0 w-1.5 h-full bg-warning" />
+          <div className="flex items-start gap-4">
+            <div className="h-10 w-10 rounded-xl bg-warning/20 flex items-center justify-center shrink-0">
+              <AlertTriangle className="h-6 w-6 text-warning" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-sm font-bold text-warning mb-3 uppercase tracking-widest">{t.scenario}</h3>
+              <p className="text-foreground text-base sm:text-lg leading-relaxed font-medium">
+                {question.scenario[language]}
+              </p>
             </div>
           </div>
         </div>
