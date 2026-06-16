@@ -20,17 +20,6 @@ interface HorizontalNavProps {
   onLanguageChange?: (lang: Language) => void;
 }
 
-// Microsoft Fabric official logo
-function FabricIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 32" className={className} aria-hidden="true">
-      <path d="M16 0L24 8L16 16L8 8z" fill="#F24F23" />
-      <path d="M8 8L16 16L8 24L0 16z" fill="#00A4EF" />
-      <path d="M24 8L32 16L24 24L16 16z" fill="#7FBA00" />
-      <path d="M16 16L24 24L16 32L8 24z" fill="#FFB900" />
-    </svg>
-  );
-}
 
 export function HorizontalNav({ language, onScrollToSection, onLanguageChange }: HorizontalNavProps) {
   const t = translations[language];
@@ -55,7 +44,7 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
       <div className="container flex items-center gap-2 py-1.5">
         {/* Brand */}
         <Link to="/" className="flex items-center gap-2 pr-3 mr-1 border-r border-border/60 shrink-0">
-          <FabricIcon className="h-7 w-7" />
+          <img src={fabricLogo.url} alt="Microsoft Fabric" className="h-7 w-7 object-contain" />
           <span className="hidden sm:inline text-sm font-bold tracking-tight text-foreground">
             DP-600
           </span>
