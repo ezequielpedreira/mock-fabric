@@ -15,9 +15,10 @@ import { useToast } from "@/hooks/use-toast";
 const Login = () => {
   const { user, loading } = useAuth();
   const { toast } = useToast();
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   if (loading) {
@@ -34,14 +35,25 @@ const Login = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      if (isSignUp) {
+      if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin },
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: { full_name: fullName },
+          },
         });
         if (error) throw error;
-        toast({ title: "Conta criada!", description: "Verifique seu e-mail para confirmar." });
+        toast({ title: "Conta criada!", description: "Você já pode entrar." });
+        setMode("signin");
+      } else if (mode === "forgot") {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast({ title: "E-mail enviado", description: "Verifique sua caixa de entrada para redefinir a senha." });
+        setMode("signin");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -78,11 +90,16 @@ const Login = () => {
             Simulado <span className="text-primary">DP-600</span>
           </CardTitle>
           <CardDescription>
-            {isSignUp ? "Crie sua conta para começar" : "Entre para acessar o simulado"}
+            {mode === "signup"
+              ? "Crie sua conta para começar"
+              : mode === "forgot"
+              ? "Informe seu e-mail para redefinir a senha"
+              : "Entre para acessar o simulado"}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Google */}
+          {mode !== "forgot" && (
+            <>
           <Button
             variant="outline"
             size="lg"
@@ -104,9 +121,24 @@ const Login = () => {
             <span className="text-xs text-muted-foreground uppercase">ou</span>
             <Separator className="flex-1" />
           </div>
+            </>
+          )}
 
           {/* Email/Password */}
           <form onSubmit={handleEmailAuth} className="space-y-4">
+            {mode === "signup" && (
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Nome completo</Label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="Seu nome"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                />
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email">E-mail</Label>
               <div className="relative">
@@ -122,8 +154,20 @@ const Login = () => {
                 />
               </div>
             </div>
-            <div className="space-y-2">
+            {mode !== "forgot" && (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
               <Label htmlFor="password">Senha</Label>
+                  {mode === "signin" && (
+                    <button
+                      type="button"
+                      onClick={() => setMode("forgot")}
+                      className="text-xs text-primary hover:underline"
+                    >
+                      Esqueci minha senha
+                    </button>
+                  )}
+                </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -137,22 +181,35 @@ const Login = () => {
                   minLength={6}
                 />
               </div>
-            </div>
+              </div>
+            )}
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
-              {isSignUp ? "Criar conta" : "Entrar"}
+              {mode === "signup" ? "Criar conta" : mode === "forgot" ? "Enviar e-mail" : "Entrar"}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            {isSignUp ? "Já tem conta?" : "Não tem conta?"}{" "}
-            <button
-              type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
-              className="text-primary hover:underline font-medium"
-            >
-              {isSignUp ? "Entrar" : "Criar conta"}
-            </button>
+            {mode === "forgot" ? (
+              <button
+                type="button"
+                onClick={() => setMode("signin")}
+                className="text-primary hover:underline font-medium"
+              >
+                Voltar para o login
+              </button>
+            ) : (
+              <>
+                {mode === "signup" ? "Já tem conta?" : "Não tem conta?"}{" "}
+                <button
+                  type="button"
+                  onClick={() => setMode(mode === "signup" ? "signin" : "signup")}
+                  className="text-primary hover:underline font-medium"
+                >
+                  {mode === "signup" ? "Entrar" : "Criar conta"}
+                </button>
+              </>
+            )}
           </p>
         </CardContent>
       </Card>
