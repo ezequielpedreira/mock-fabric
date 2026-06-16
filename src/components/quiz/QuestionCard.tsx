@@ -177,10 +177,10 @@ export function QuestionCard({
           </div>
         </div>
 
-        {/* Scenario */}
+        {/* Scenario + Question */}
         <div className="relative bg-gradient-to-br from-warning/10 via-card to-card rounded-2xl border-2 border-warning/40 p-6 sm:p-8 mb-8 shadow-lg overflow-hidden">
           <div className="absolute top-0 left-0 w-1.5 h-full bg-warning" />
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-4 mb-6">
             <div className="h-10 w-10 rounded-xl bg-warning/20 flex items-center justify-center shrink-0">
               <AlertTriangle className="h-6 w-6 text-warning" />
             </div>
@@ -191,10 +191,14 @@ export function QuestionCard({
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Question */}
-        <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-6">{question.question[language]}</h2>
+          {/* Question inside scenario frame */}
+          <div className="border-t border-warning/20 pt-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+              {question.question[language]}
+            </h2>
+          </div>
+        </div>
 
         {/* Options */}
         <div className="space-y-3 mb-8">
