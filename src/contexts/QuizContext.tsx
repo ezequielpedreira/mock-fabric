@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from "react";
+import React, { createContext, useContext, useState, useCallback, useMemo, useEffect, type ReactNode } from "react";
 import { questions, type Language, type Question } from "@/data/questions";
 import { type Domain, type UserStats, initialUserStats } from "@/types/quiz";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface AnswerRecord {
   questionId: number;
@@ -43,11 +45,46 @@ interface QuizContextValue {
 const QuizContext = createContext<QuizContextValue | null>(null);
 
 export function QuizProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [language, setLanguage] = useState<Language>("pt-br");
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
   const [quizCount, setQuizCount] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [previousStats, setPreviousStats] = useState<PreviousSnapshot | null>(null);
+
+  // Load user's history from DB when logged in
+  useEffect(() => {
+    if (!user) {
+      setAnswers([]);
+      setQuizCount(0);
+      setBestScore(0);
+      setPreviousStats(null);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase
+        .from("user_answers")
+        .select("question_id, selected_answer, is_correct, time_spent")
+        .eq("user_id", user.id)
+        .order("answered_at", { ascending: true });
+      if (error || cancelled || !data) return;
+      // Keep only the latest answer per question
+      const latest = new Map<number, AnswerRecord>();
+      for (const row of data) {
+        latest.set(row.question_id, {
+          questionId: row.question_id,
+          selectedAnswer: row.selected_answer,
+          isCorrect: row.is_correct,
+          timeSpent: row.time_spent ?? 0,
+        });
+      }
+      setAnswers(Array.from(latest.values()));
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   const recordAnswer = useCallback(
     (questionId: number, selectedAnswer: string, timeSpent: number) => {
@@ -58,8 +95,25 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         const filtered = prev.filter((a) => a.questionId !== questionId);
         return [...filtered, { questionId, selectedAnswer, isCorrect, timeSpent }];
       });
+      // Persist to DB (fire and forget; RLS ensures user_id matches)
+      if (user) {
+        supabase
+          .from("user_answers")
+          .insert({
+            user_id: user.id,
+            question_id: questionId,
+            category: question.category,
+            selected_answer: selectedAnswer,
+            is_correct: isCorrect,
+            time_spent: timeSpent,
+            mode: "training",
+          })
+          .then(({ error }) => {
+            if (error) console.error("Failed to save answer:", error.message);
+          });
+      }
     },
-    []
+    [user]
   );
 
   const completeQuiz = useCallback(() => {
@@ -77,12 +131,15 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     if (score > bestScore) setBestScore(score);
   }, [answers, bestScore, quizCount]);
 
-  const resetStats = useCallback(() => {
+  const resetStats = useCallback(async () => {
     setAnswers([]);
     setQuizCount(0);
     setBestScore(0);
     setPreviousStats(null);
-  }, []);
+    if (user) {
+      await supabase.from("user_answers").delete().eq("user_id", user.id);
+    }
+  }, [user]);
 
   const userStats: UserStats = useMemo(() => {
     const correct = answers.filter((a) => a.isCorrect).length;

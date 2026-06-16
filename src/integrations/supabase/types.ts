@@ -41,6 +41,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_answers: {
+        Row: {
+          answered_at: string
+          category: string
+          id: string
+          is_correct: boolean
+          mode: string
+          question_id: number
+          selected_answer: string
+          time_spent: number
+          user_id: string
+        }
+        Insert: {
+          answered_at?: string
+          category: string
+          id?: string
+          is_correct: boolean
+          mode?: string
+          question_id: number
+          selected_answer: string
+          time_spent?: number
+          user_id: string
+        }
+        Update: {
+          answered_at?: string
+          category?: string
+          id?: string
+          is_correct?: boolean
+          mode?: string
+          question_id?: number
+          selected_answer?: string
+          time_spent?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
