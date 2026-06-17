@@ -104,6 +104,19 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
             {descText}
           </p>
 
+          <div className="flex items-start gap-3 rounded-xl bg-amber-500/10 border border-amber-500/20 px-4 py-3">
+            <Smartphone className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+            <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">
+              {language === "pt-br"
+                ? "Para usar o QR Code, abra o aplicativo do seu banco e escaneie o código dentro do app."
+                : language === "es"
+                  ? "Para usar el QR Code, abra la aplicación de su banco y escanee el código dentro de la app."
+                  : language === "fr"
+                    ? "Pour utiliser le QR Code, ouvrez l'application de votre banque et scannez le code dans l'app."
+                    : "To use the QR Code, open your bank app and scan the code inside the app."}
+            </p>
+          </div>
+
           <div className="flex flex-col items-center gap-4">
             <div className="p-3 rounded-2xl bg-white border-2 border-border shadow-sm">
               <img
