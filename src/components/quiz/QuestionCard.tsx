@@ -157,12 +157,12 @@ export function QuestionCard({
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
       <div
-        className={`max-w-3xl mx-auto animate-fade-in rounded-2xl transition-all duration-300 ${
+        className={`max-w-3xl mx-auto animate-fade-in rounded-2xl border-2 transition-all duration-300 ${
           isChecked
             ? isCorrect
-              ? "ring-4 ring-success/60 bg-success/5 shadow-[0_0_40px_-10px_hsl(var(--success)/0.5)] p-4 sm:p-6"
-              : "ring-4 ring-destructive/50 bg-destructive/5 p-4 sm:p-6"
-            : ""
+              ? "border-success/60 ring-4 ring-success/60 bg-success/5 shadow-[0_0_40px_-10px_hsl(var(--success)/0.5)] p-4 sm:p-6"
+              : "border-destructive/50 ring-4 ring-destructive/50 bg-destructive/5 p-4 sm:p-6"
+            : "border-transparent"
         }`}
       >
         {/* Question number & category */}
