@@ -161,7 +161,7 @@ export function QuestionCard({
           isChecked
             ? isCorrect
               ? "border-success/60 ring-4 ring-success/60 bg-success/5 shadow-[0_0_40px_-10px_hsl(var(--success)/0.5)] p-4 sm:p-6"
-              : "border-destructive/50 ring-4 ring-destructive/50 bg-destructive/5 p-4 sm:p-6"
+              : "border-destructive/60 ring-4 ring-destructive/60 bg-destructive/5 p-4 sm:p-6"
             : "border-transparent"
         }`}
       >
