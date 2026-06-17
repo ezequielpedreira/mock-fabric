@@ -9,6 +9,7 @@ import { CategorySelector } from "@/components/quiz/CategorySelector";
 import { DiagnosticReport } from "@/components/quiz/DiagnosticReport";
 import { questions } from "@/data/questions";
 import { HorizontalNav } from "@/components/landing/HorizontalNav";
+import { SupportProject } from "@/components/SupportProject";
 import { translations } from "@/data/translations";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
