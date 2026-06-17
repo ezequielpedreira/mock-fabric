@@ -128,6 +128,10 @@
   --accent-foreground: hsl(0 0% 100%);
   --destructive: hsl(0 62% 30.6%);
   --destructive-foreground: hsl(0 0% 100%);
+  --success: hsl(152 55% 50%);
+  --success-foreground: hsl(0 0% 100%);
+  --warning: hsl(38 92% 55%);
+  --warning-foreground: hsl(0 0% 10%);
   --border: hsl(220 20% 20%);
   --input: hsl(220 20% 20%);
   --ring: hsl(173 81% 45%);
