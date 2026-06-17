@@ -41,7 +41,15 @@ const Training = () => {
       }
       return a;
     };
-    return shuffle(base).map((q) => ({ ...q, options: shuffle(q.options) }));
+    return shuffle(base).map((q) => {
+      // Shuffle answer texts but keep the option keys in A, B, C, D order
+      const shuffledTexts = shuffle(q.options.map((o) => o.text));
+      const orderedKeys = q.options.map((o) => o.key);
+      const originalCorrectText = q.options.find((o) => o.key === q.correctAnswer)?.text;
+      const newOptions = orderedKeys.map((key, idx) => ({ key, text: shuffledTexts[idx] }));
+      const newCorrect = newOptions.find((o) => o.text === originalCorrectText)?.key ?? q.correctAnswer;
+      return { ...q, options: newOptions, correctAnswer: newCorrect };
+    });
   }, [categoryFilter]);
 
   const currentQuestion = filteredQuestions[currentIndex];
@@ -193,10 +201,11 @@ const Training = () => {
               {stats.answered}/{totalQuestions} · {stats.score}%
             </span>
           </div>
-          {stats.weakTopics.length > 0 && (
-            <WeakTopicsCard language={language} weakTopics={stats.weakTopics} />
-          )}
-          <QuestionCard
+          <div className="flex-1 overflow-y-auto">
+            {stats.weakTopics.length > 0 && (
+              <WeakTopicsCard language={language} weakTopics={stats.weakTopics} />
+            )}
+            <QuestionCard
             question={currentQuestion}
             language={language}
             currentIndex={currentIndex}
@@ -208,7 +217,8 @@ const Training = () => {
             onNext={next}
             onPrevious={previous}
             onFinish={allAnswered ? () => setPhase("diagnostic") : undefined}
-          />
+            />
+          </div>
         </div>
       </div>
     </div>
