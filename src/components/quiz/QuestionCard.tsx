@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle, AlertTriangle, ChevronLeft, ChevronRight, Lightbulb, ExternalLink } from "lucide-react";
+import { CheckCircle2, XCircle, AlertTriangle, ChevronLeft, ChevronRight, Lightbulb, ExternalLink, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type Question, type Language } from "@/data/questions";
 import { translations } from "@/data/translations";
