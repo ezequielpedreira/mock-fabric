@@ -1,23 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Heart, Copy, Check, QrCode, Coffee } from "lucide-react";
-import QRCodeLib from "qrcode";
+import { Heart, Copy, Check, Coffee } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { translations } from "@/data/translations";
 import type { Language } from "@/data/questions";
+import pixQrCodeAsset from "@/assets/pix-qr-code.jpeg.asset.json";
 
-// ============================================================
-// CONFIGURAÇÃO: Altere aqui sua chave PIX ou link de doação
-// ============================================================
-// Exemplos:
-// - Chave PIX copia-e-cola: "00020126580014BR.GOV.BCB.PIX0136..."
-// - Link PayPal: "https://paypal.me/seulink"
-// - Link Ko-fi: "https://ko-fi.com/seulink"
-// - Link Buy Me a Coffee: "https://buymeacoffee.com/seulink"
-const DONATION_PAYLOAD =
-  "https://mock-fabric.lovable.app";
-// ============================================================
+// Chave PIX copia-e-cola
+const PIX_KEY =
+  "00020126580014BR.GOV.BCB.PIX0136a5839d47-2545-4b76-9e4c-ce06c55c06705204000053039865802BR5923Ezequiel Bispo Pedreira6009SAO PAULO62140510VsPreRRJwC630462D0";
 
 interface SupportProjectProps {
   language?: Language;
@@ -26,25 +18,11 @@ interface SupportProjectProps {
 export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
   const t = translations[language];
   const { toast } = useToast();
-  const [qrDataUrl, setQrDataUrl] = useState<string>("");
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    QRCodeLib.toDataURL(DONATION_PAYLOAD, {
-      width: 240,
-      margin: 2,
-      color: {
-        dark: "#000000",
-        light: "#ffffff",
-      },
-    })
-      .then((url) => setQrDataUrl(url))
-      .catch(() => setQrDataUrl(""));
-  }, []);
-
   const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(DONATION_PAYLOAD).then(() => {
+    navigator.clipboard.writeText(PIX_KEY).then(() => {
       setCopied(true);
       toast({
         title:
@@ -55,10 +33,10 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
               : "Copied!",
         description:
           language === "pt-br"
-            ? "Chave copiada para a área de transferência."
+            ? "Chave PIX copiada para a área de transferência."
             : language === "es"
-              ? "Clave copiada al portapapeles."
-              : "Key copied to clipboard.",
+              ? "Clave PIX copiada al portapapeles."
+              : "PIX key copied to clipboard.",
       });
       setTimeout(() => setCopied(false), 2000);
     });
@@ -93,12 +71,12 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
 
   const copyLabel =
     language === "pt-br"
-      ? "Copiar chave"
+      ? "Copiar chave PIX"
       : language === "es"
-        ? "Copiar clave"
+        ? "Copiar clave PIX"
         : language === "fr"
-          ? "Copier la clé"
-          : "Copy key";
+          ? "Copier la clé PIX"
+          : "Copy PIX key";
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -126,51 +104,38 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
             {descText}
           </p>
 
-          {qrDataUrl ? (
-            <div className="flex flex-col items-center gap-4">
-              <div className="p-3 rounded-2xl bg-white border-2 border-border shadow-sm">
-                <img
-                  src={qrDataUrl}
-                  alt="QR Code para doação"
-                  className="w-48 h-48 sm:w-56 sm:h-56"
-                />
-              </div>
+          <div className="flex flex-col items-center gap-4">
+            <div className="p-3 rounded-2xl bg-white border-2 border-border shadow-sm">
+              <img
+                src={pixQrCodeAsset.url}
+                alt="QR Code PIX"
+                className="w-48 h-48 sm:w-56 sm:h-56 object-contain"
+              />
+            </div>
 
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCopy}
-                className="gap-2 w-full max-w-xs"
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-4 w-4 text-green-500" />
-                    {language === "pt-br"
-                      ? "Copiado!"
-                      : language === "es"
-                        ? "¡Copiado!"
-                        : "Copied!"}
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4" />
-                    {copyLabel}
-                  </>
-                )}
-              </Button>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-3 py-4">
-              <QrCode className="h-12 w-12 text-muted-foreground/50" />
-              <p className="text-sm text-muted-foreground text-center">
-                {language === "pt-br"
-                  ? "QR Code não configurado ainda."
-                  : language === "es"
-                    ? "QR Code aún no configurado."
-                    : "QR Code not configured yet."}
-              </p>
-            </div>
-          )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleCopy}
+              className="gap-2 w-full max-w-xs"
+            >
+              {copied ? (
+                <>
+                  <Check className="h-4 w-4 text-green-500" />
+                  {language === "pt-br"
+                    ? "Copiado!"
+                    : language === "es"
+                      ? "¡Copiado!"
+                      : "Copied!"}
+                </>
+              ) : (
+                <>
+                  <Copy className="h-4 w-4" />
+                  {copyLabel}
+                </>
+              )}
+            </Button>
+          </div>
 
           <div className="text-center pt-2">
             <p className="text-xs text-muted-foreground/70">{thanksText}</p>
