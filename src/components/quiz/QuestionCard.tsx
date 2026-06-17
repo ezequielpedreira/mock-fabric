@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle, AlertTriangle, ChevronLeft, ChevronRight, Lightbulb, ExternalLink, CheckCircle } from "lucide-react";
+import { CheckCircle2, XCircle, AlertTriangle, ChevronLeft, ChevronRight, Lightbulb, ExternalLink, CheckCircle, Flag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type Question, type Language } from "@/data/questions";
 import { translations } from "@/data/translations";
@@ -144,15 +144,17 @@ interface QuestionCardProps {
   onCheck: () => void;
   onNext: () => void;
   onPrevious: () => void;
+  onFinish?: () => void;
 }
 
 export function QuestionCard({
   question, language, currentIndex, totalQuestions,
   selectedOption, isChecked,
-  onSelectOption, onCheck, onNext, onPrevious,
+  onSelectOption, onCheck, onNext, onPrevious, onFinish,
 }: QuestionCardProps) {
   const t = translations[language];
   const isCorrect = isChecked && selectedOption === question.correctAnswer;
+  const isLast = currentIndex === totalQuestions - 1;
 
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
@@ -319,6 +321,17 @@ export function QuestionCard({
               className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
             >
               {t.checkAnswer}
+            </Button>
+          ) : isLast && onFinish ? (
+            <Button
+              onClick={onFinish}
+              className="gap-2 bg-success text-success-foreground hover:bg-success/90"
+            >
+              <Flag className="h-4 w-4" />
+              {language === "pt-br" ? "Finalizar e ver diagnóstico" :
+               language === "es" ? "Finalizar y ver diagnóstico" :
+               language === "fr" ? "Terminer et voir le diagnostic" :
+               "Finish and view diagnostic"}
             </Button>
           ) : (
             <Button

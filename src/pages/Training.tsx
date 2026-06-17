@@ -198,6 +198,7 @@ const Training = () => {
             onCheck={checkAnswer}
             onNext={next}
             onPrevious={previous}
+            onFinish={allAnswered ? () => setPhase("diagnostic") : undefined}
           />
         </div>
       </div>
