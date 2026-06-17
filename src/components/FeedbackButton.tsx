@@ -15,6 +15,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { notifyFeedback } from "@/lib/feedback.functions";
 
 const feedbackSchema = z.object({
   rating: z.number().int().min(1, "Selecione uma nota").max(5),
@@ -67,6 +68,15 @@ export function FeedbackButton() {
         page,
       });
       if (error) throw error;
+
+      // Fire-and-forget email notification (errors don't block the user)
+      notifyFeedback({
+        data: {
+          rating: parsed.data.rating,
+          comment: parsed.data.comment ?? null,
+          page,
+        },
+      }).catch((e) => console.error("notifyFeedback failed", e));
 
       toast({
         title: "Obrigado pelo feedback!",
