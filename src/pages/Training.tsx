@@ -31,10 +31,18 @@ const Training = () => {
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [localAnswers, setLocalAnswers] = useState<AnswerRecord[]>([]);
 
-  const filteredQuestions = useMemo(
-    () => categoryFilter ? questions.filter((q) => q.category === categoryFilter) : questions,
-    [categoryFilter]
-  );
+  const filteredQuestions = useMemo(() => {
+    const base = categoryFilter ? questions.filter((q) => q.category === categoryFilter) : questions;
+    const shuffle = <T,>(arr: T[]): T[] => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+    return shuffle(base).map((q) => ({ ...q, options: shuffle(q.options) }));
+  }, [categoryFilter]);
 
   const currentQuestion = filteredQuestions[currentIndex];
   const totalQuestions = filteredQuestions.length;
