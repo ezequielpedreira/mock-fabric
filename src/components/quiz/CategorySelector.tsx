@@ -165,7 +165,7 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
                     <h3 className="font-semibold text-sm sm:text-base text-foreground group-hover:text-primary transition-colors break-words">{cat}</h3>
                     <p className="text-xs sm:text-sm text-muted-foreground mt-1">{desc}</p>
                   </div>
-                  <Button variant="ghost" size="sm" className="gap-1.5 text-primary p-0 h-auto hover:bg-primary/10">
+                  <Button variant="ghost" size="sm" className="gap-1.5 text-primary p-0 h-auto hover:bg-green-500/10 hover:text-green-700">
                     <PlayCircle className="h-4 w-4" />
                     {labels.start[language]}
                   </Button>
