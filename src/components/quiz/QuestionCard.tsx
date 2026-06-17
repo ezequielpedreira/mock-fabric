@@ -178,14 +178,26 @@ export function QuestionCard({
         </div>
 
         {/* Scenario + Question */}
-        <div className="relative bg-gradient-to-br from-warning/10 via-card to-card rounded-2xl border-2 border-warning/40 p-6 sm:p-8 mb-8 shadow-lg overflow-hidden">
-          <div className="absolute top-0 left-0 w-1.5 h-full bg-warning" />
+        <div
+          className={`relative rounded-2xl border-2 p-6 sm:p-8 mb-8 shadow-lg overflow-hidden transition-all duration-300 ${
+            isCorrect
+              ? "bg-gradient-to-br from-success/10 via-card to-card border-success/40 shadow-[0_0_40px_-10px_hsl(var(--success)/0.3)]"
+              : "bg-gradient-to-br from-warning/10 via-card to-card border-warning/40"
+          }`}
+        >
+          <div className={`absolute top-0 left-0 w-1.5 h-full ${isCorrect ? "bg-success" : "bg-warning"}`} />
           <div className="flex items-start gap-4 mb-6">
-            <div className="h-10 w-10 rounded-xl bg-warning/20 flex items-center justify-center shrink-0">
-              <AlertTriangle className="h-6 w-6 text-warning" />
+            <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${isCorrect ? "bg-success/20" : "bg-warning/20"}`}>
+              {isCorrect ? (
+                <CheckCircle className="h-6 w-6 text-success" />
+              ) : (
+                <AlertTriangle className="h-6 w-6 text-warning" />
+              )}
             </div>
             <div className="flex-1">
-              <h3 className="text-sm font-bold text-warning mb-3 uppercase tracking-widest">{t.scenario}</h3>
+              <h3 className={`text-sm font-bold mb-3 uppercase tracking-widest ${isCorrect ? "text-success" : "text-warning"}`}>
+                {isCorrect ? t.correct : t.scenario}
+              </h3>
               <p className="text-foreground text-base sm:text-lg leading-relaxed font-medium">
                 {question.scenario[language]}
               </p>
@@ -193,7 +205,7 @@ export function QuestionCard({
           </div>
 
           {/* Question inside scenario frame */}
-          <div className="border-t border-warning/20 pt-6">
+          <div className={`border-t pt-6 ${isCorrect ? "border-success/20" : "border-warning/20"}`}>
             <h2 className="text-lg sm:text-xl font-semibold text-foreground">
               {question.question[language]}
             </h2>
