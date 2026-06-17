@@ -238,7 +238,7 @@ export function QuestionCard({
                 key={opt.key}
                 onClick={() => !isChecked && onSelectOption(opt.key)}
                 disabled={isChecked}
-                className={`w-full flex items-start gap-4 p-4 rounded-xl border-2 transition-all text-left ${optionClasses}`}
+                className={`w-full flex items-start gap-4 p-4 rounded-xl border-2 transition-all text-left min-w-0 overflow-hidden ${optionClasses}`}
               >
                 <span className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 mt-0.5 ${
                   isChecked && isCorrectOpt
@@ -257,7 +257,7 @@ export function QuestionCard({
                     opt.key
                   )}
                 </span>
-                <span className="text-foreground font-medium min-w-0 flex-1 break-words whitespace-pre-wrap">{opt.text[language]}</span>
+                <span className="text-foreground font-medium min-w-0 flex-1 break-words whitespace-pre-wrap overflow-hidden max-w-full">{opt.text[language]}</span>
               </button>
             );
           })}
