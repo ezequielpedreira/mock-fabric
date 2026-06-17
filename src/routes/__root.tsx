@@ -16,6 +16,7 @@ import { QuizProvider } from "@/contexts/QuizContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { FeedbackButton } from "@/components/FeedbackButton";
 
 function NotFoundComponent() {
   return (
@@ -134,6 +135,7 @@ function RootComponent() {
             <Sonner />
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
+            <FeedbackButton />
           </QuizProvider>
         </AuthProvider>
       </TooltipProvider>
