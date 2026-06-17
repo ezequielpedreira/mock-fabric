@@ -157,7 +157,7 @@ export function QuestionCard({
   const isLast = currentIndex === totalQuestions - 1;
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
+    <div className="p-4 sm:p-6 md:p-10">
       <div
         className={`max-w-3xl mx-auto animate-fade-in rounded-2xl border-2 transition-all duration-300 ${
           isChecked
@@ -200,7 +200,7 @@ export function QuestionCard({
               <h3 className={`text-sm font-bold mb-3 uppercase tracking-widest ${isCorrect ? "text-success" : "text-warning"}`}>
                 {isCorrect ? t.correct : t.scenario}
               </h3>
-              <p className="text-foreground text-base sm:text-lg leading-relaxed font-medium">
+              <p className="text-foreground text-base sm:text-lg leading-relaxed font-medium break-words whitespace-pre-wrap">
                 {question.scenario[language]}
               </p>
             </div>
@@ -208,7 +208,7 @@ export function QuestionCard({
 
           {/* Question inside scenario frame */}
           <div className={`border-t pt-6 ${isCorrect ? "border-success/20" : "border-warning/20"}`}>
-            <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground break-words whitespace-pre-wrap">
               {question.question[language]}
             </h2>
           </div>
@@ -238,9 +238,9 @@ export function QuestionCard({
                 key={opt.key}
                 onClick={() => !isChecked && onSelectOption(opt.key)}
                 disabled={isChecked}
-                className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all text-left ${optionClasses}`}
+                className={`w-full flex items-start gap-4 p-4 rounded-xl border-2 transition-all text-left ${optionClasses}`}
               >
-                <span className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
+                <span className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 mt-0.5 ${
                   isChecked && isCorrectOpt
                     ? "bg-success text-success-foreground"
                     : isChecked && isSelected && !isCorrectOpt
@@ -257,7 +257,7 @@ export function QuestionCard({
                     opt.key
                   )}
                 </span>
-                <span className="text-foreground font-medium">{opt.text[language]}</span>
+                <span className="text-foreground font-medium min-w-0 flex-1 break-words whitespace-pre-wrap">{opt.text[language]}</span>
               </button>
             );
           })}
@@ -303,7 +303,7 @@ export function QuestionCard({
         )}
 
         {/* Navigation */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4 sm:gap-6">
           <Button
             variant="outline"
             onClick={onPrevious}
