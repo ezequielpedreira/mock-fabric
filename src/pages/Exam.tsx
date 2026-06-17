@@ -21,11 +21,27 @@ function shuffleAndPick<T>(arr: T[], count: number): T[] {
   return shuffled.slice(0, count);
 }
 
+function shuffleAnswers<T extends { id: number; options: { key: string; text: any }[]; correctAnswer: string }>(qs: T[]): T[] {
+  return qs.map((q) => {
+    const texts = q.options.map((o) => o.text);
+    // Fisher-Yates on texts
+    for (let i = texts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [texts[i], texts[j]] = [texts[j], texts[i]];
+    }
+    const orderedKeys = q.options.map((o) => o.key);
+    const correctText = q.options.find((o) => o.key === q.correctAnswer)?.text;
+    const newOptions = orderedKeys.map((key, idx) => ({ key, text: texts[idx] }));
+    const newCorrect = newOptions.find((o) => o.text === correctText)?.key ?? q.correctAnswer;
+    return { ...q, options: newOptions, correctAnswer: newCorrect };
+  });
+}
+
 const Exam = () => {
   const { language, setLanguage, recordAnswer, completeQuiz } = useQuiz();
   const navigate = useNavigate();
 
-  const [examQuestions] = useState(() => shuffleAndPick(allQuestions, EXAM_QUESTION_COUNT));
+  const [examQuestions] = useState(() => shuffleAnswers(shuffleAndPick(allQuestions, EXAM_QUESTION_COUNT)));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isChecked, setIsChecked] = useState(false);
