@@ -123,23 +123,21 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
           className="group cursor-pointer border-2 border-primary/30 hover:border-primary hover:shadow-lg transition-all duration-300"
           onClick={() => onSelectCategory(null)}
         >
-          <CardContent className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
-            <div className="flex items-center gap-4 min-w-0 flex-1">
+          <CardContent className="p-4 sm:p-5 space-y-3">
+            <div className="flex items-start justify-between gap-2">
               <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 shadow-md">
                 <BookOpen className="h-6 w-6 sm:h-7 sm:w-7 text-primary-foreground" />
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-base sm:text-lg font-semibold text-foreground">{labels.allQuestions[language]}</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground">{labels.allDesc[language]}</p>
-              </div>
+              <Badge variant="secondary" className="shrink-0">{totalQuestions} {labels.questionsLabel[language]}</Badge>
             </div>
-            <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
-              <Badge variant="secondary">{totalQuestions} {labels.questionsLabel[language]}</Badge>
-              <Button variant="hero" size="sm" className="gap-1.5">
-                <PlayCircle className="h-4 w-4" />
-                {labels.start[language]}
-              </Button>
+            <div className="min-w-0">
+              <h3 className="font-semibold text-sm sm:text-base text-foreground group-hover:text-primary transition-colors break-words">{labels.allQuestions[language]}</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">{labels.allDesc[language]}</p>
             </div>
+            <Button variant="ghost" size="sm" className="gap-1.5 text-primary p-0 h-auto hover:bg-transparent">
+              <PlayCircle className="h-4 w-4" />
+              {labels.start[language]}
+            </Button>
           </CardContent>
         </Card>
 
