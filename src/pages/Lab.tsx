@@ -225,10 +225,7 @@ const LabCard = ({ mod, className }: { mod: LabModule; className?: string }) => 
               {mod.duration}
             </span>
           )}
-          <span className="flex items-center gap-1">
-            <BookOpen className="h-3.5 w-3.5" />
-            {mod.level}
-          </span>
+          <LevelBadge level={mod.level} />
         </div>
       </CardContent>
     </Card>
