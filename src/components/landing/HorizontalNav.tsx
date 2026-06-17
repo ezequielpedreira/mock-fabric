@@ -118,16 +118,18 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
           )}
 
           {user && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleSignOut}
-              className="gap-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-              title={t.signOut}
-            >
-              <LogOut className="h-4 w-4" />
-              <span className="hidden md:inline">{t.signOut}</span>
-            </Button>
+            <div className="ml-auto">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+                className="gap-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                title={t.signOut}
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden md:inline">{t.signOut}</span>
+              </Button>
+            </div>
           )}
         </div>
       </div>
