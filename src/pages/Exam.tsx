@@ -3,10 +3,10 @@ import { useNavigate } from "@/lib/router-compat";
 import { useQuiz } from "@/contexts/QuizContext";
 import { Header } from "@/components/quiz/Header";
 import { QuestionCard } from "@/components/quiz/QuestionCard";
+import { DiagnosticReport } from "@/components/quiz/DiagnosticReport";
 import { questions as allQuestions } from "@/data/questions";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Clock, CheckCircle2, XCircle, Home, ArrowLeft } from "lucide-react";
+import { Clock, ArrowLeft } from "lucide-react";
 import type { AnswerRecord } from "@/contexts/QuizContext";
 
 const EXAM_DURATION = 60 * 60; // 60 min in seconds
@@ -41,7 +41,7 @@ const Exam = () => {
   const { language, setLanguage, recordAnswer, completeQuiz } = useQuiz();
   const navigate = useNavigate();
 
-  const [examQuestions] = useState(() => shuffleAnswers(shuffleAndPick(allQuestions, EXAM_QUESTION_COUNT)));
+  const [examQuestions, setExamQuestions] = useState(() => shuffleAnswers(shuffleAndPick(allQuestions, EXAM_QUESTION_COUNT)));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isChecked, setIsChecked] = useState(false);
@@ -102,34 +102,29 @@ const Exam = () => {
     setFinished(true);
   };
 
-  if (finished) {
-    const correct = localAnswers.filter((a) => a.isCorrect).length;
-    const score = localAnswers.length > 0 ? Math.round((correct / localAnswers.length) * 100) : 0;
-    const passed = score >= 70;
+  const restartExam = useCallback(() => {
+    setExamQuestions(shuffleAnswers(shuffleAndPick(allQuestions, EXAM_QUESTION_COUNT)));
+    setCurrentIndex(0);
+    setSelectedOption(null);
+    setIsChecked(false);
+    setLocalAnswers([]);
+    setTimeLeft(EXAM_DURATION);
+    setQuestionStartTime(Date.now());
+    setFinished(false);
+  }, []);
 
+  if (finished) {
     return (
       <div className="flex flex-col h-screen overflow-hidden">
         <Header language={language} onLanguageChange={setLanguage} title="Resultado — DP-600" onBack={() => navigate("/")} />
-        <div className="flex-1 flex items-center justify-center p-6">
-          <Card className="max-w-md w-full shadow-lg">
-            <CardContent className="p-8 text-center space-y-6">
-              <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center ${passed ? "bg-success/10" : "bg-destructive/10"}`}>
-                {passed ? <CheckCircle2 className="h-10 w-10 text-success" /> : <XCircle className="h-10 w-10 text-destructive" />}
-              </div>
-              <h2 className="text-3xl font-bold text-foreground">{score}%</h2>
-              <p className="text-muted-foreground">
-                {correct} de {localAnswers.length} questões corretas
-              </p>
-              <p className={`font-semibold ${passed ? "text-success" : "text-destructive"}`}>
-                {passed ? "Aprovado! 🎉" : "Não atingiu a nota mínima"}
-              </p>
-              <Button onClick={() => navigate("/")} className="gap-2">
-                <Home className="h-4 w-4" />
-                Voltar ao Início
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        <DiagnosticReport
+          language={language}
+          answers={localAnswers}
+          questions={examQuestions}
+          categoryFilter={null}
+          onRestart={restartExam}
+          onBackToCategories={() => navigate("/")}
+        />
       </div>
     );
   }

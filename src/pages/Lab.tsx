@@ -27,6 +27,34 @@ interface YouTubeItem {
   title: string;
 }
 
+function levelBadgeClass(level: string): string {
+  const normalized = level.toLowerCase();
+  if (normalized.includes("inicia") || normalized.includes("begin")) {
+    return "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30";
+  }
+  if (normalized.includes("interm")) {
+    return "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30";
+  }
+  if (normalized.includes("avan") || normalized.includes("adv")) {
+    return "bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/30";
+  }
+  return "bg-primary/10 text-primary border-primary/20";
+}
+
+function LevelBadge({ level }: { level: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs font-semibold shadow-sm transition-colors",
+        levelBadgeClass(level),
+      )}
+    >
+      <BookOpen className="h-3.5 w-3.5" />
+      {level}
+    </span>
+  );
+}
+
 const introModules: LabModule[] = [
   {
     title: "Introdução à análise de ponta a ponta usando o Microsoft Fabric",
@@ -197,10 +225,7 @@ const LabCard = ({ mod, className }: { mod: LabModule; className?: string }) => 
               {mod.duration}
             </span>
           )}
-          <span className="flex items-center gap-1">
-            <BookOpen className="h-3.5 w-3.5" />
-            {mod.level}
-          </span>
+          <LevelBadge level={mod.level} />
         </div>
       </CardContent>
     </Card>
@@ -319,10 +344,7 @@ const Lab = () => {
                       <span className="px-2 py-0.5 rounded-full bg-accent/10 border border-primary/10 font-medium">
                         {instructorCourse.type}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <BookOpen className="h-3.5 w-3.5" />
-                        {instructorCourse.level}
-                      </span>
+                      <LevelBadge level={instructorCourse.level} />
                     </div>
                   </CardContent>
                 </Card>
@@ -379,10 +401,7 @@ const Lab = () => {
                       <span className="px-2 py-0.5 rounded-full bg-accent/10 border border-primary/10 font-medium">
                         {certification.type}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <BookOpen className="h-3.5 w-3.5" />
-                        {certification.level}
-                      </span>
+                      <LevelBadge level={certification.level} />
                     </div>
                   </CardContent>
                 </Card>
