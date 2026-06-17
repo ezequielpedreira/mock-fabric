@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { SupportProject } from "@/components/SupportProject";
 import fabricLogo from "@/assets/fabric-logo.webp.asset.json";
 
 interface HorizontalNavProps {
@@ -87,6 +88,9 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
               </li>
             );
           })}
+          <li>
+            <SupportProject language={language} />
+          </li>
         </ul>
 
         {/* Right cluster: language + logout */}
