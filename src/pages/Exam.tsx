@@ -6,8 +6,7 @@ import { QuestionCard } from "@/components/quiz/QuestionCard";
 import { DiagnosticReport } from "@/components/quiz/DiagnosticReport";
 import { questions as allQuestions } from "@/data/questions";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Clock, CheckCircle2, XCircle, Home, ArrowLeft } from "lucide-react";
+import { Clock, ArrowLeft } from "lucide-react";
 import type { AnswerRecord } from "@/contexts/QuizContext";
 
 const EXAM_DURATION = 60 * 60; // 60 min in seconds
