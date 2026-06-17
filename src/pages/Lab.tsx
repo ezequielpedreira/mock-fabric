@@ -344,10 +344,7 @@ const Lab = () => {
                       <span className="px-2 py-0.5 rounded-full bg-accent/10 border border-primary/10 font-medium">
                         {instructorCourse.type}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <BookOpen className="h-3.5 w-3.5" />
-                        {instructorCourse.level}
-                      </span>
+                      <LevelBadge level={instructorCourse.level} />
                     </div>
                   </CardContent>
                 </Card>
@@ -404,10 +401,7 @@ const Lab = () => {
                       <span className="px-2 py-0.5 rounded-full bg-accent/10 border border-primary/10 font-medium">
                         {certification.type}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <BookOpen className="h-3.5 w-3.5" />
-                        {certification.level}
-                      </span>
+                      <LevelBadge level={certification.level} />
                     </div>
                   </CardContent>
                 </Card>
