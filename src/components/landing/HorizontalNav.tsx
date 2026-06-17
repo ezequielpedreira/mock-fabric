@@ -42,9 +42,9 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
 
   return (
     <nav className="bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/70 border-b border-border sticky top-0 z-40 shadow-sm">
-      <div className="container flex items-center gap-2 py-1.5">
+      <div className="container flex items-center gap-1 sm:gap-2 py-1.5">
         {/* Brand */}
-        <Link to="/" className="flex items-center gap-2 pr-3 mr-1 border-r border-border/60 shrink-0">
+        <Link to="/" className="flex items-center gap-2 pr-2 sm:pr-3 mr-1 border-r border-border/60 shrink-0">
           <img src={fabricLogo.url} alt="Microsoft Fabric" className="h-7 w-7 object-contain" />
           <span className="hidden sm:inline text-sm font-bold tracking-tight text-foreground">
             DP-600
@@ -52,24 +52,24 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
         </Link>
 
         {/* Nav items */}
-        <ul className="flex items-center gap-1 overflow-x-auto scrollbar-none flex-1">
+        <ul className="flex items-center gap-0.5 sm:gap-1 overflow-x-auto scrollbar-none flex-1 min-w-0">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = item.isLink ? location.pathname === item.href : false;
 
             if (item.isLink) {
               return (
-                <li key={item.label}>
+                <li key={item.label} className="shrink-0">
                   <Link
                     to={item.href}
                     className={cn(
-                      "flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
+                      "flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
                       isActive
                         ? "bg-primary text-primary-foreground shadow-sm"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground"
                     )}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4 shrink-0" />
                     <span className="hidden sm:inline">{item.label}</span>
                   </Link>
                 </li>
@@ -77,12 +77,12 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
             }
 
             return (
-              <li key={item.label}>
+              <li key={item.label} className="shrink-0">
                 <button
                   onClick={() => onScrollToSection?.(item.href)}
-                  className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap text-muted-foreground hover:bg-muted hover:text-foreground"
+                  className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">{item.label}</span>
                 </button>
               </li>
@@ -91,12 +91,12 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
         </ul>
 
         {/* Right cluster: language + support + logout */}
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
           {onLanguageChange && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-                  <Globe className="h-4 w-4" />
+                <Button variant="ghost" size="sm" className="gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground px-1.5 sm:px-3">
+                  <Globe className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">{languageLabels[language]}</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -114,18 +114,20 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
             </DropdownMenu>
           )}
 
-          <SupportProject language={language} />
+          <div className="hidden sm:block">
+            <SupportProject language={language} />
+          </div>
 
           {user && (
-            <div className="ml-auto">
+            <div className="shrink-0">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleSignOut}
-                className="gap-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                className="gap-1.5 sm:gap-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 px-1.5 sm:px-3"
                 title={t.signOut}
               >
-                <LogOut className="h-4 w-4" />
+                <LogOut className="h-4 w-4 shrink-0" />
                 <span className="hidden md:inline">{t.signOut}</span>
               </Button>
             </div>
