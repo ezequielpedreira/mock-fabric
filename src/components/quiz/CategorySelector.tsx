@@ -111,11 +111,11 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 md:p-10">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
+      <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-foreground">{labels.title[language]}</h1>
-          <p className="text-muted-foreground">{labels.subtitle[language]}</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">{labels.title[language]}</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">{labels.subtitle[language]}</p>
         </div>
 
         {/* All questions card */}
@@ -123,15 +123,17 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
           className="group cursor-pointer border-2 border-primary/30 hover:border-primary hover:shadow-lg transition-all duration-300"
           onClick={() => onSelectCategory(null)}
         >
-          <CardContent className="p-6 flex items-center gap-5">
-            <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 shadow-md">
-              <BookOpen className="h-7 w-7 text-primary-foreground" />
+          <CardContent className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
+            <div className="flex items-center gap-4 min-w-0 flex-1">
+              <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 shadow-md">
+                <BookOpen className="h-6 w-6 sm:h-7 sm:w-7 text-primary-foreground" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">{labels.allQuestions[language]}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">{labels.allDesc[language]}</p>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-foreground">{labels.allQuestions[language]}</h3>
-              <p className="text-sm text-muted-foreground">{labels.allDesc[language]}</p>
-            </div>
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
               <Badge variant="secondary">{totalQuestions} {labels.questionsLabel[language]}</Badge>
               <Button variant="hero" size="sm" className="gap-1.5">
                 <PlayCircle className="h-4 w-4" />
@@ -142,7 +144,7 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
         </Card>
 
         {/* Category cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {categories.map((cat) => {
             const count = questions.filter((q) => q.category === cat).length;
             const icon = categoryIcons[cat] || <BookOpen className="h-6 w-6" />;
@@ -154,16 +156,16 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
                 className="group cursor-pointer border-2 border-transparent hover:border-primary/20 hover:shadow-lg transition-all duration-300"
                 onClick={() => onSelectCategory(cat)}
               >
-                <CardContent className="p-5 space-y-3">
-                  <div className="flex items-start justify-between">
-                    <div className="h-11 w-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                <CardContent className="p-4 sm:p-5 space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
                       {icon}
                     </div>
-                    <Badge variant="outline">{count} {labels.questionsLabel[language]}</Badge>
+                    <Badge variant="outline" className="shrink-0 text-xs">{count} {labels.questionsLabel[language]}</Badge>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">{cat}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{desc}</p>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-sm sm:text-base text-foreground group-hover:text-primary transition-colors break-words">{cat}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-1">{desc}</p>
                   </div>
                   <Button variant="ghost" size="sm" className="gap-1.5 text-primary p-0 h-auto hover:bg-transparent">
                     <PlayCircle className="h-4 w-4" />
