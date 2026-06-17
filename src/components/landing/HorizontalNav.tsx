@@ -90,8 +90,10 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
           })}
         </ul>
 
-        {/* Right cluster: language + support + logout */}
+        {/* Right cluster: support + language + logout */}
         <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
+          <SupportProject language={language} />
+
           {onLanguageChange && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -113,8 +115,6 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
               </DropdownMenuContent>
             </DropdownMenu>
           )}
-
-          <SupportProject language={language} />
 
           {user && (
             <div className="shrink-0">
