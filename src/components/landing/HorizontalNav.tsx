@@ -114,9 +114,7 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
             </DropdownMenu>
           )}
 
-          <div className="hidden sm:block">
-            <SupportProject language={language} />
-          </div>
+          <SupportProject language={language} />
 
           {user && (
             <div className="shrink-0">
