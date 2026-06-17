@@ -8,6 +8,7 @@ import { useQuiz } from '@/contexts/QuizContext';
 import { type Domain, DOMAIN_LABELS } from '@/types/quiz';
 
 import { HorizontalNav } from '@/components/landing/HorizontalNav';
+import { SupportProject } from '@/components/SupportProject';
 import { CertificationSection, ImportantInfoSection } from '@/components/landing/CertificationSection';
 import { translations } from '@/data/translations';
 import {
@@ -29,6 +30,9 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <HorizontalNav language={language} onScrollToSection={scrollToSection} onLanguageChange={setLanguage} />
+      <div className="flex justify-end px-4 py-2">
+        <SupportProject language={language} />
+      </div>
 
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden">

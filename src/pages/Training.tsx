@@ -9,6 +9,7 @@ import { CategorySelector } from "@/components/quiz/CategorySelector";
 import { DiagnosticReport } from "@/components/quiz/DiagnosticReport";
 import { questions } from "@/data/questions";
 import { HorizontalNav } from "@/components/landing/HorizontalNav";
+import { SupportProject } from "@/components/SupportProject";
 import { translations } from "@/data/translations";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -127,6 +128,9 @@ const Training = () => {
       <div className="flex flex-col h-screen overflow-hidden">
         <Header language={language} onLanguageChange={setLanguage} title={t.appTitle} onBack={() => navigate("/")} />
         <HorizontalNav language={language} />
+        <div className="flex justify-end px-4 py-2">
+          <SupportProject language={language} />
+        </div>
         <CategorySelector language={language} onSelectCategory={handleSelectCategory} />
       </div>
     );
