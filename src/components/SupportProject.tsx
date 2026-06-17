@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Heart, Copy, Check, Coffee } from "lucide-react";
+import { Heart, Copy, Check, Coffee, Smartphone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { translations } from "@/data/translations";
 import type { Language } from "@/data/questions";
