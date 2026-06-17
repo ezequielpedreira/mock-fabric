@@ -145,18 +145,20 @@ const Exam = () => {
         </div>
       </div>
 
-      <QuestionCard
-        question={currentQuestion}
-        language={language}
-        currentIndex={currentIndex}
-        totalQuestions={examQuestions.length}
-        selectedOption={selectedOption}
-        isChecked={isChecked}
-        onSelectOption={setSelectedOption}
-        onCheck={checkAnswer}
-        onNext={next}
-        onPrevious={previous}
-      />
+      <div className="flex-1 overflow-y-auto">
+        <QuestionCard
+          question={currentQuestion}
+          language={language}
+          currentIndex={currentIndex}
+          totalQuestions={examQuestions.length}
+          selectedOption={selectedOption}
+          isChecked={isChecked}
+          onSelectOption={setSelectedOption}
+          onCheck={checkAnswer}
+          onNext={next}
+          onPrevious={previous}
+        />
+      </div>
     </div>
   );
 };

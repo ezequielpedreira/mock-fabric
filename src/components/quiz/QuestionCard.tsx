@@ -157,7 +157,7 @@ export function QuestionCard({
   const isLast = currentIndex === totalQuestions - 1;
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
+    <div className="p-4 sm:p-6 md:p-10">
       <div
         className={`max-w-3xl mx-auto animate-fade-in rounded-2xl border-2 transition-all duration-300 ${
           isChecked
