@@ -1,7 +1,7 @@
 import { useQuiz } from '@/contexts/QuizContext';
 import { Header } from '@/components/quiz/Header';
 import { HorizontalNav } from '@/components/landing/HorizontalNav';
-import { SupportProject } from '@/components/SupportProject';
+
 import { translations } from '@/data/translations';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';

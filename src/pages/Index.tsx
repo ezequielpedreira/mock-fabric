@@ -8,7 +8,7 @@ import { useQuiz } from '@/contexts/QuizContext';
 import { type Domain, DOMAIN_LABELS } from '@/types/quiz';
 
 import { HorizontalNav } from '@/components/landing/HorizontalNav';
-import { SupportProject } from '@/components/SupportProject';
+
 import { CertificationSection, ImportantInfoSection } from '@/components/landing/CertificationSection';
 import { translations } from '@/data/translations';
 import {
