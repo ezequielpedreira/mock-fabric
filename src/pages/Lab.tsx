@@ -215,9 +215,6 @@ const Lab = () => {
     <div className="min-h-screen">
       <Header language={language} onLanguageChange={setLanguage} title={t.appTitle} />
       <HorizontalNav language={language} />
-      <div className="flex justify-end px-4 py-2">
-        <SupportProject language={language} />
-      </div>
 
       <section className="py-12">
         <div className="container">
