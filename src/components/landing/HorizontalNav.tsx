@@ -88,9 +88,6 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
               </li>
             );
           })}
-          <li>
-            <SupportProject language={language} />
-          </li>
         </ul>
 
         {/* Right cluster: language + logout */}
