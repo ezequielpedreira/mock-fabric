@@ -231,7 +231,7 @@ const Lab = () => {
           </div>
 
           {/* Introdução ao Microsoft Fabric */}
-          <div className="mb-12">
+          <div className="mb-12 border-2 border-border/50 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-primary/10 text-primary">
                 <Route className="h-5 w-5" />
@@ -260,7 +260,7 @@ const Lab = () => {
           </div>
 
           {/* Implemente soluções com o Microsoft Fabric */}
-          <div className="mb-12">
+          <div className="mb-12 border-2 border-border/50 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-primary/10 text-primary">
                 <Sparkles className="h-5 w-5" />
@@ -278,7 +278,7 @@ const Lab = () => {
           </div>
 
           {/* Treinamento e Certificação lado a lado */}
-          <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 border-2 border-border/50 rounded-2xl p-6">
             {/* Coluna Treinamento */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
@@ -401,7 +401,7 @@ const Lab = () => {
           </div>
 
           {/* Playlists Indicadas */}
-          <div className="mb-12">
+          <div className="mb-12 border-2 border-border/50 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-primary/10 text-primary shrink-0">
                 <PlayCircle className="h-5 w-5" />
