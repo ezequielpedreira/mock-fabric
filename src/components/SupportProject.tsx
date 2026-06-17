@@ -84,7 +84,7 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
         <Button
           variant="default"
           size="sm"
-          className="rounded-full shadow-lg shadow-primary/40 hover:shadow-primary/60 transition-all hover:-translate-y-0.5 gap-2 px-4 py-2 h-auto bg-primary animate-pulse ring-2 ring-primary/30 ring-offset-2 ring-offset-background"
+          className="rounded-full gap-2 px-3 py-1.5 h-auto bg-primary"
         >
           <Heart className="h-4 w-4 fill-current" />
           <span className="hidden sm:inline text-sm font-medium">{titleText}</span>
