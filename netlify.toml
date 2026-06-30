@@ -5,6 +5,10 @@
 [build.environment]
   NODE_VERSION = "20"
 
+[functions]
+  directory = "dist/server"
+  node_bundler = "none"
+
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
