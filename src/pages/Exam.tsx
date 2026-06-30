@@ -4,7 +4,6 @@ import { useQuiz } from "@/contexts/QuizContext";
 import { Header } from "@/components/quiz/Header";
 import { QuestionCard } from "@/components/quiz/QuestionCard";
 import { DiagnosticReport } from "@/components/quiz/DiagnosticReport";
-import { questions as allQuestions } from "@/data/questions";
 import { Button } from "@/components/ui/button";
 import { Clock, ArrowLeft } from "lucide-react";
 import type { AnswerRecord } from "@/contexts/QuizContext";
@@ -38,7 +37,7 @@ function shuffleAnswers<T extends { id: number; options: { key: string; text: an
 }
 
 const Exam = () => {
-  const { language, setLanguage, recordAnswer, completeQuiz } = useQuiz();
+  const { language, setLanguage, recordAnswer, completeQuiz, allQuestions } = useQuiz();
   const navigate = useNavigate();
 
   const [examQuestions, setExamQuestions] = useState(() => shuffleAnswers(shuffleAndPick(allQuestions, EXAM_QUESTION_COUNT)));

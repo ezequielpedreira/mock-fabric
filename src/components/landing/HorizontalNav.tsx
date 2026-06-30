@@ -1,7 +1,7 @@
 import { Link, useLocation } from "@/lib/router-compat";
 import { translations, languageLabels } from "@/data/translations";
 import type { Language } from "@/data/questions";
-import { Home, Award, PlayCircle, GraduationCap, FlaskConical, Globe, LogOut } from "lucide-react";
+import { Home, Award, PlayCircle, GraduationCap, FlaskConical, Globe, LogOut, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "@tanstack/react-router";
@@ -92,6 +92,21 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
 
         {/* Right cluster: support + language + logout */}
         <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
+          {user && (
+            <Link
+              to="/admin"
+              className={cn(
+                "flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
+                location.pathname === "/admin"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
+              title="Gerenciar Perguntas"
+            >
+              <ShieldCheck className="h-4 w-4 shrink-0" />
+              <span className="hidden sm:inline">Admin</span>
+            </Link>
+          )}
           <SupportProject language={language} />
 
           {onLanguageChange && (

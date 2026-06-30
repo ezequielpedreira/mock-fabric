@@ -16,6 +16,7 @@ import { Route as AuthedIndexRouteImport } from './routes/_authed.index'
 import { Route as AuthedTrainingRouteImport } from './routes/_authed.training'
 import { Route as AuthedLabRouteImport } from './routes/_authed.lab'
 import { Route as AuthedExamRouteImport } from './routes/_authed.exam'
+import { Route as AuthedAdminRouteImport } from './routes/_authed.admin'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -51,11 +52,17 @@ const AuthedExamRoute = AuthedExamRouteImport.update({
   path: '/exam',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedAdminRoute = AuthedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthedIndexRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AuthedAdminRoute
   '/exam': typeof AuthedExamRoute
   '/lab': typeof AuthedLabRoute
   '/training': typeof AuthedTrainingRoute
@@ -63,6 +70,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AuthedAdminRoute
   '/exam': typeof AuthedExamRoute
   '/lab': typeof AuthedLabRoute
   '/training': typeof AuthedTrainingRoute
@@ -73,6 +81,7 @@ export interface FileRoutesById {
   '/_authed': typeof AuthedRouteWithChildren
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authed/admin': typeof AuthedAdminRoute
   '/_authed/exam': typeof AuthedExamRoute
   '/_authed/lab': typeof AuthedLabRoute
   '/_authed/training': typeof AuthedTrainingRoute
@@ -80,14 +89,29 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/reset-password' | '/exam' | '/lab' | '/training'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/reset-password'
+    | '/admin'
+    | '/exam'
+    | '/lab'
+    | '/training'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/reset-password' | '/exam' | '/lab' | '/training' | '/'
+  to:
+    | '/login'
+    | '/reset-password'
+    | '/admin'
+    | '/exam'
+    | '/lab'
+    | '/training'
+    | '/'
   id:
     | '__root__'
     | '/_authed'
     | '/login'
     | '/reset-password'
+    | '/_authed/admin'
     | '/_authed/exam'
     | '/_authed/lab'
     | '/_authed/training'
@@ -151,10 +175,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedExamRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/admin': {
+      id: '/_authed/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthedAdminRouteImport
+      parentRoute: typeof AuthedRoute
+    }
   }
 }
 
 interface AuthedRouteChildren {
+  AuthedAdminRoute: typeof AuthedAdminRoute
   AuthedExamRoute: typeof AuthedExamRoute
   AuthedLabRoute: typeof AuthedLabRoute
   AuthedTrainingRoute: typeof AuthedTrainingRoute
@@ -162,6 +194,7 @@ interface AuthedRouteChildren {
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedAdminRoute: AuthedAdminRoute,
   AuthedExamRoute: AuthedExamRoute,
   AuthedLabRoute: AuthedLabRoute,
   AuthedTrainingRoute: AuthedTrainingRoute,
@@ -179,3 +212,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

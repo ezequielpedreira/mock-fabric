@@ -1,4 +1,5 @@
-import { questions, type Language } from "@/data/questions";
+import { type Language, type Question } from "@/data/questions";
+import { useQuiz } from "@/contexts/QuizContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -68,8 +69,9 @@ interface CategorySelectorProps {
 }
 
 export function CategorySelector({ language, onSelectCategory }: CategorySelectorProps) {
-  const categories = [...new Set(questions.map((q) => q.category))];
-  const totalQuestions = questions.length;
+  const { allQuestions } = useQuiz();
+  const categories = [...new Set(allQuestions.map((q) => q.category))];
+  const totalQuestions = allQuestions.length;
 
   const labels: Record<string, Record<Language, string>> = {
     title: {
@@ -144,7 +146,7 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
         {/* Category cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {categories.map((cat) => {
-            const count = questions.filter((q) => q.category === cat).length;
+            const count = allQuestions.filter((q) => q.category === cat).length;
             const icon = categoryIcons[cat] || <BookOpen className="h-6 w-6" />;
             const desc = categoryDescriptions[cat]?.[language] || "";
 

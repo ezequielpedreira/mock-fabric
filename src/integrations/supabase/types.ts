@@ -68,6 +68,39 @@ export type Database = {
         }
         Relationships: []
       }
+      questions: {
+        Row: {
+          id: number
+          category: string
+          scenario: Record<string, string>
+          question: Record<string, string>
+          options: { key: string; text: Record<string, string> }[]
+          correct_answer: string
+          explanation: Record<string, string>
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          category: string
+          scenario: Record<string, string>
+          question: Record<string, string>
+          options: { key: string; text: Record<string, string> }[]
+          correct_answer: string
+          explanation: Record<string, string>
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          category?: string
+          scenario?: Record<string, string>
+          question?: Record<string, string>
+          options?: { key: string; text: Record<string, string> }[]
+          correct_answer?: string
+          explanation?: Record<string, string>
+          created_at?: string
+        }
+        Relationships: []
+      }
       user_answers: {
         Row: {
           answered_at: string

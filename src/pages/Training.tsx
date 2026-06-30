@@ -7,7 +7,6 @@ import { QuestionCard } from "@/components/quiz/QuestionCard";
 import { WeakTopicsCard } from "@/components/quiz/WeakTopicsCard";
 import { CategorySelector } from "@/components/quiz/CategorySelector";
 import { DiagnosticReport } from "@/components/quiz/DiagnosticReport";
-import { questions } from "@/data/questions";
 import { HorizontalNav } from "@/components/landing/HorizontalNav";
 
 import { translations } from "@/data/translations";
@@ -19,7 +18,7 @@ import type { AnswerRecord } from "@/contexts/QuizContext";
 type Phase = "select" | "quiz" | "diagnostic";
 
 const Training = () => {
-  const { language, setLanguage, recordAnswer } = useQuiz();
+  const { language, setLanguage, recordAnswer, allQuestions } = useQuiz();
   const navigate = useNavigate();
   const t = translations[language];
 
@@ -32,7 +31,7 @@ const Training = () => {
   const [localAnswers, setLocalAnswers] = useState<AnswerRecord[]>([]);
 
   const filteredQuestions = useMemo(() => {
-    const base = categoryFilter ? questions.filter((q) => q.category === categoryFilter) : questions;
+    const base = categoryFilter ? allQuestions.filter((q) => q.category === categoryFilter) : allQuestions;
     const shuffle = <T,>(arr: T[]): T[] => {
       const a = [...arr];
       for (let i = a.length - 1; i > 0; i--) {

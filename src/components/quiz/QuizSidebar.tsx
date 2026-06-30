@@ -1,7 +1,8 @@
 import { CheckCircle2, XCircle, Circle, Trophy, Clock, BarChart3, RotateCcw, Flag } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { questions as allQuestions, type Language, type Question } from "@/data/questions";
+import { type Language, type Question } from "@/data/questions";
+import { useQuiz } from "@/contexts/QuizContext";
 import { translations } from "@/data/translations";
 import type { AnswerRecord } from "@/hooks/useQuiz";
 
@@ -24,6 +25,7 @@ interface QuizSidebarProps {
 
 export function QuizSidebar({ language, currentIndex, answers, stats, filteredQuestions, onGoToQuestion, onReset, onFinish }: QuizSidebarProps) {
   const t = translations[language];
+  const { allQuestions } = useQuiz();
   const displayQuestions = filteredQuestions || allQuestions;
   const progressPercent = (stats.answered / displayQuestions.length) * 100;
 

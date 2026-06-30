@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useMemo, useEffect, type ReactNode } from "react";
-import { questions, type Language, type Question } from "@/data/questions";
+import { type Language, type Question } from "@/data/questions";
 import { type Domain, type UserStats, initialUserStats } from "@/types/quiz";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -51,6 +51,31 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const [quizCount, setQuizCount] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [previousStats, setPreviousStats] = useState<PreviousSnapshot | null>(null);
+  const [dbQuestions, setDbQuestions] = useState<Question[]>([]);
+
+  // Load questions from DB
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("questions")
+      .select("*")
+      .order("id", { ascending: true })
+      .then(({ data }) => {
+        if (!data) return;
+        const mapped: Question[] = data.map((q) => ({
+          id: q.id,
+          category: q.category,
+          scenario: q.scenario as Record<Language, string>,
+          question: q.question as Record<Language, string>,
+          options: q.options as { key: string; text: Record<Language, string> }[],
+          correctAnswer: q.correct_answer,
+          explanation: q.explanation as Record<Language, string>,
+        }));
+        setDbQuestions(mapped);
+      });
+  }, [user]);
+
+  const allQuestions = useMemo(() => dbQuestions, [dbQuestions]);
 
   // Load user's history from DB when logged in
   useEffect(() => {
@@ -88,7 +113,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
   const recordAnswer = useCallback(
     (questionId: number, selectedAnswer: string, timeSpent: number) => {
-      const question = questions.find((q) => q.id === questionId);
+      const question = allQuestions.find((q) => q.id === questionId);
       if (!question) return;
       const isCorrect = selectedAnswer === question.correctAnswer;
       setAnswers((prev) => {
@@ -146,7 +171,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     const avgScore = answers.length > 0 ? Math.round((correct / answers.length) * 100) : 0;
 
     const domainStats = { ...initialUserStats.domainStats };
-    for (const q of questions) {
+    for (const q of allQuestions) {
       const domain = categoryToDomain[q.category] || "preparar-dados";
       const ans = answers.find((a) => a.questionId === q.id);
       if (ans) {
@@ -165,11 +190,11 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       bestScore,
       domainStats,
     };
-  }, [answers, quizCount, bestScore]);
+  }, [answers, quizCount, bestScore, allQuestions]);
 
   return (
     <QuizContext.Provider
-      value={{ language, setLanguage, allQuestions: questions, userStats, previousStats, answers, recordAnswer, completeQuiz, resetStats }}
+      value={{ language, setLanguage, allQuestions, userStats, previousStats, answers, recordAnswer, completeQuiz, resetStats }}
     >
       {children}
     </QuizContext.Provider>
