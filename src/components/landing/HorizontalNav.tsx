@@ -126,7 +126,7 @@ export function HorizontalNav({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-10 gap-1.5 px-2 text-muted-foreground hover:text-foreground sm:gap-2 sm:px-3"
+                  className="gap-1.5 px-2 text-muted-foreground hover:text-foreground sm:gap-2 sm:px-3"
                   aria-label={`Idioma: ${languageLabels[language]}`}
                 >
                   <Globe className="h-4 w-4 shrink-0" />
@@ -153,7 +153,7 @@ export function HorizontalNav({
                 variant="ghost"
                 size="sm"
                 onClick={handleSignOut}
-                className="h-10 gap-1.5 px-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive sm:gap-2 sm:px-3"
+                className="gap-1.5 px-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive sm:gap-2 sm:px-3"
                 title={t.signOut}
               >
                 <LogOut className="h-4 w-4 shrink-0" />

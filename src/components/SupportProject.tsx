@@ -76,7 +76,7 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="default" size="sm" className="h-10 rounded-xl px-2.5 sm:px-3">
+        <Button variant="default" size="sm" className="rounded-xl px-2.5 sm:px-3">
           <Heart className="h-4 w-4 fill-current" />
           <span className="hidden sm:inline text-sm font-medium">{titleText}</span>
         </Button>

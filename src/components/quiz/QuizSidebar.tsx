@@ -66,7 +66,7 @@ export function QuizSidebar({
               <button
                 key={q.id}
                 onClick={() => onGoToQuestion(i)}
-                className={`w-7 h-7 rounded-md text-xs font-medium flex items-center justify-center transition-all ${
+                className={`flex h-10 w-10 items-center justify-center rounded-lg text-xs font-medium transition-all sm:h-7 sm:w-7 sm:rounded-md ${
                   isCurrent
                     ? "ring-2 ring-sidebar-primary bg-sidebar-accent"
                     : ans?.isCorrect
