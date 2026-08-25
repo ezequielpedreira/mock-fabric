@@ -120,10 +120,10 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
+    <div className="fabric-ambient flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
       <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+          <h1 className="text-3xl font-bold tracking-[-0.035em] text-foreground sm:text-4xl">
             {labels.title[language]}
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground">{labels.subtitle[language]}</p>
@@ -131,12 +131,12 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
 
         {/* All questions card */}
         <Card
-          className="group cursor-pointer border-2 border-primary/30 hover:border-primary hover:shadow-lg transition-all duration-300"
+          className="interactive-card premium-panel group cursor-pointer overflow-hidden rounded-3xl border-primary/20"
           onClick={() => onSelectCategory(null)}
         >
           <CardContent className="p-4 sm:p-5 space-y-3">
             <div className="flex items-start justify-between gap-2">
-              <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 shadow-md">
+              <div className="fabric-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14">
                 <BookOpen className="h-6 w-6 sm:h-7 sm:w-7 text-primary-foreground" />
               </div>
               <Badge variant="secondary" className="shrink-0">
@@ -168,12 +168,12 @@ export function CategorySelector({ language, onSelectCategory }: CategorySelecto
             return (
               <Card
                 key={cat}
-                className="group cursor-pointer border-2 border-transparent hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="interactive-card group cursor-pointer border-border/70 bg-card/88 backdrop-blur-sm"
                 onClick={() => onSelectCategory(cat)}
               >
                 <CardContent className="p-4 sm:p-5 space-y-3">
                   <div className="flex items-start justify-between gap-2">
-                    <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary ring-1 ring-primary/8 sm:h-11 sm:w-11">
                       {icon}
                     </div>
                     <Badge variant="outline" className="shrink-0 text-xs">

@@ -36,34 +36,30 @@ export function StatsCard({
   const trendColor = isPositive
     ? "text-success"
     : isNegative
-    ? "text-destructive"
-    : "text-muted-foreground";
+      ? "text-destructive"
+      : "text-muted-foreground";
 
   const TrendIcon = isUp ? ArrowUpRight : isDown ? ArrowDownRight : Minus;
 
   return (
-    <Card className="border border-border/60 bg-card hover:border-primary/30 hover:shadow-sm transition-colors">
-      <CardContent className="p-5 space-y-3">
+    <Card className="interactive-card group border-border/70 bg-card/88 backdrop-blur-sm">
+      <CardContent className="space-y-3 p-5 sm:p-6">
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary ring-1 ring-primary/8 transition-transform duration-300 group-hover:scale-105">
             {icon}
           </div>
         </div>
-        <p className="text-3xl font-bold tracking-tight text-foreground">{value}</p>
+        <p className="text-3xl font-bold tracking-[-0.035em] text-foreground">{value}</p>
         {hasDelta ? (
           <div className="flex items-center gap-1.5 text-xs">
-            <span
-              className={`inline-flex items-center gap-0.5 font-semibold ${trendColor}`}
-            >
+            <span className={`inline-flex items-center gap-0.5 font-semibold ${trendColor}`}>
               <TrendIcon className="h-3.5 w-3.5" />
               {delta! > 0 ? "+" : ""}
               {delta}
               {deltaSuffix}
             </span>
-            <span className="text-muted-foreground">
-              {deltaLabel ?? "vs último teste"}
-            </span>
+            <span className="text-muted-foreground">{deltaLabel ?? "vs último teste"}</span>
           </div>
         ) : subtitle ? (
           <p className="text-xs text-muted-foreground">{subtitle}</p>

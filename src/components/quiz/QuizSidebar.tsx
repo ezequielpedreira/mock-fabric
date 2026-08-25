@@ -1,4 +1,13 @@
-import { CheckCircle2, XCircle, Circle, Trophy, Clock, BarChart3, RotateCcw, Flag } from "lucide-react";
+import {
+  CheckCircle2,
+  XCircle,
+  Circle,
+  Trophy,
+  Clock,
+  BarChart3,
+  RotateCcw,
+  Flag,
+} from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { questions as allQuestions, type Language, type Question } from "@/data/questions";
@@ -22,16 +31,27 @@ interface QuizSidebarProps {
   onFinish?: () => void;
 }
 
-export function QuizSidebar({ language, currentIndex, answers, stats, filteredQuestions, onGoToQuestion, onReset, onFinish }: QuizSidebarProps) {
+export function QuizSidebar({
+  language,
+  currentIndex,
+  answers,
+  stats,
+  filteredQuestions,
+  onGoToQuestion,
+  onReset,
+  onFinish,
+}: QuizSidebarProps) {
   const t = translations[language];
   const displayQuestions = filteredQuestions || allQuestions;
   const progressPercent = (stats.answered / displayQuestions.length) * 100;
 
   return (
-    <aside className="w-full lg:w-72 bg-sidebar text-sidebar-foreground flex flex-col shrink-0 lg:border-r border-sidebar-border overflow-y-auto h-full">
+    <aside className="h-full w-full shrink-0 overflow-y-auto border-sidebar-border bg-[linear-gradient(165deg,var(--sidebar),color-mix(in_oklch,var(--sidebar)_82%,var(--fabric-violet)))] text-sidebar-foreground lg:w-72 lg:border-r">
       {/* Progress */}
       <div className="p-5 border-b border-sidebar-border">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-sidebar-muted mb-3">{t.progress}</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-sidebar-muted mb-3">
+          {t.progress}
+        </h2>
         <Progress value={progressPercent} className="h-2 mb-2" />
         <p className="text-xs text-sidebar-muted">
           {stats.answered} {t.of} {displayQuestions.length} {t.completed.toLowerCase()}
@@ -50,10 +70,10 @@ export function QuizSidebar({ language, currentIndex, answers, stats, filteredQu
                   isCurrent
                     ? "ring-2 ring-sidebar-primary bg-sidebar-accent"
                     : ans?.isCorrect
-                    ? "bg-success/20 text-success"
-                    : ans
-                    ? "bg-destructive/20 text-destructive"
-                    : "bg-sidebar-accent text-sidebar-muted hover:bg-sidebar-accent/80"
+                      ? "bg-success/20 text-success"
+                      : ans
+                        ? "bg-destructive/20 text-destructive"
+                        : "bg-sidebar-accent text-sidebar-muted hover:bg-sidebar-accent/80"
                 }`}
               >
                 {i + 1}
@@ -65,7 +85,9 @@ export function QuizSidebar({ language, currentIndex, answers, stats, filteredQu
 
       {/* Performance */}
       <div className="p-5 flex-1">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-sidebar-muted mb-4">{t.performance}</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-sidebar-muted mb-4">
+          {t.performance}
+        </h2>
 
         <div className="space-y-4">
           {/* Overall Score */}
@@ -86,7 +108,10 @@ export function QuizSidebar({ language, currentIndex, answers, stats, filteredQu
             </div>
             <div>
               <p className="text-xs text-sidebar-muted">{t.avgTime}</p>
-              <p className="text-lg font-bold">{stats.avgTime}{t.seconds}</p>
+              <p className="text-lg font-bold">
+                {stats.avgTime}
+                {t.seconds}
+              </p>
             </div>
           </div>
 
@@ -99,14 +124,17 @@ export function QuizSidebar({ language, currentIndex, answers, stats, filteredQu
             <div className="space-y-2">
               {Object.entries(stats.categoryStats).map(([cat, { total, correct }]) => {
                 const catAnswers = answers.filter(
-                  (a) => displayQuestions.find((q) => q.id === a.questionId)?.category === cat
+                  (a) => displayQuestions.find((q) => q.id === a.questionId)?.category === cat,
                 );
-                const accuracy = catAnswers.length > 0 ? Math.round((correct / catAnswers.length) * 100) : 0;
+                const accuracy =
+                  catAnswers.length > 0 ? Math.round((correct / catAnswers.length) * 100) : 0;
                 return (
                   <div key={cat}>
                     <div className="flex justify-between text-xs mb-1">
                       <span className="text-sidebar-foreground">{cat}</span>
-                      <span className="text-sidebar-muted">{catAnswers.length > 0 ? `${accuracy}%` : "—"}</span>
+                      <span className="text-sidebar-muted">
+                        {catAnswers.length > 0 ? `${accuracy}%` : "—"}
+                      </span>
                     </div>
                     <div className="h-1.5 rounded-full bg-sidebar-accent overflow-hidden">
                       <div
@@ -125,14 +153,15 @@ export function QuizSidebar({ language, currentIndex, answers, stats, filteredQu
       {/* Actions */}
       <div className="p-5 border-t border-sidebar-border space-y-2">
         {onFinish && (
-          <Button
-            variant="default"
-            size="sm"
-            onClick={onFinish}
-            className="w-full gap-2"
-          >
+          <Button variant="default" size="sm" onClick={onFinish} className="w-full gap-2">
             <Flag className="h-3.5 w-3.5" />
-            {language === "pt-br" ? "Ver Diagnóstico" : language === "es" ? "Ver Diagnóstico" : language === "fr" ? "Voir Diagnostic" : "View Diagnostic"}
+            {language === "pt-br"
+              ? "Ver Diagnóstico"
+              : language === "es"
+                ? "Ver Diagnóstico"
+                : language === "fr"
+                  ? "Voir Diagnostic"
+                  : "View Diagnostic"}
           </Button>
         )}
         <Button

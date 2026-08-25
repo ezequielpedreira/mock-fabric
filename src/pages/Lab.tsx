@@ -195,8 +195,8 @@ function YouTubeEmbed({ item }: { item: YouTubeItem }) {
       ? `https://www.youtube.com/embed/videoseries?list=${item.id}`
       : `https://www.youtube.com/embed/${item.id}`;
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-primary/20">
-      <div className="aspect-video w-full bg-muted">
+    <Card className="interactive-card group overflow-hidden border-border/70 bg-card/88 backdrop-blur-sm">
+      <div className="aspect-video w-full overflow-hidden bg-muted">
         <iframe
           className="w-full h-full"
           src={embedUrl}
@@ -234,7 +234,7 @@ const LabCard = ({ mod, className }: { mod: LabModule; className?: string }) => 
     rel="noopener noreferrer"
     className={cn("group block", className)}
   >
-    <Card className="h-full hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-primary/20">
+    <Card className="interactive-card h-full border-border/70 bg-card/88 backdrop-blur-sm">
       <CardContent className="p-6 space-y-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
@@ -270,23 +270,25 @@ const Lab = () => {
   const t = translations[language];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen fabric-ambient">
       <Header language={language} onLanguageChange={setLanguage} title={t.appTitle} />
       <HorizontalNav language={language} />
 
-      <section className="py-12">
+      <section className="py-12 sm:py-16">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-12 space-y-3">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-primary/20 text-sm font-medium text-primary">
+          <div className="mx-auto mb-12 max-w-3xl space-y-4 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white/75 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur-xl">
               <FlaskConical className="h-4 w-4" />
               Microsoft Learn
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t.navLab}</h1>
+            <h1 className="text-4xl font-bold tracking-[-0.04em] text-foreground md:text-5xl">
+              {t.navLab}
+            </h1>
             <p className="text-muted-foreground">{t.labDescription}</p>
           </div>
 
           {/* Introdução ao Microsoft Fabric */}
-          <div className="mb-12 border-2 border-border/50 rounded-2xl p-6">
+          <div className="premium-panel mb-8 rounded-3xl p-5 sm:mb-12 sm:p-7">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-primary/10 text-primary">
                 <Route className="h-5 w-5" />
@@ -320,7 +322,7 @@ const Lab = () => {
           </div>
 
           {/* Implemente soluções com o Microsoft Fabric */}
-          <div className="mb-12 border-2 border-border/50 rounded-2xl p-6">
+          <div className="premium-panel mb-8 rounded-3xl p-5 sm:mb-12 sm:p-7">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-primary/10 text-primary">
                 <Sparkles className="h-5 w-5" />
@@ -343,7 +345,7 @@ const Lab = () => {
           </div>
 
           {/* Treinamento e Certificação lado a lado */}
-          <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 border-2 border-border/50 rounded-2xl p-6">
+          <div className="premium-panel mb-8 grid grid-cols-1 gap-8 rounded-3xl p-5 sm:mb-12 sm:p-7 md:grid-cols-2">
             {/* Coluna Treinamento */}
             <div className="flex flex-col">
               <div className="flex items-center gap-3 mb-6">
@@ -365,7 +367,7 @@ const Lab = () => {
                 rel="noopener noreferrer"
                 className="group block flex-1"
               >
-                <Card className="h-full hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-primary/20">
+                <Card className="interactive-card h-full border-border/70 bg-card/88 backdrop-blur-sm">
                   <CardContent className="p-6 space-y-3 h-full flex flex-col justify-between">
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-3">
@@ -425,7 +427,7 @@ const Lab = () => {
                 rel="noopener noreferrer"
                 className="group block flex-1"
               >
-                <Card className="h-full hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-primary/20">
+                <Card className="interactive-card h-full border-border/70 bg-card/88 backdrop-blur-sm">
                   <CardContent className="p-6 space-y-3 h-full flex flex-col justify-between">
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-3">
@@ -467,7 +469,7 @@ const Lab = () => {
           </div>
 
           {/* Playlists Indicadas */}
-          <div className="mb-12 border-2 border-border/50 rounded-2xl p-6">
+          <div className="premium-panel mb-8 rounded-3xl p-5 sm:mb-12 sm:p-7">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-primary/10 text-primary shrink-0">
                 <PlayCircle className="h-5 w-5" />

@@ -25,12 +25,7 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
     navigator.clipboard.writeText(PIX_KEY).then(() => {
       setCopied(true);
       toast({
-        title:
-          language === "pt-br"
-            ? "Copiado!"
-            : language === "es"
-              ? "¡Copiado!"
-              : "Copied!",
+        title: language === "pt-br" ? "Copiado!" : language === "es" ? "¡Copiado!" : "Copied!",
         description:
           language === "pt-br"
             ? "Chave PIX copiada para a área de transferência."
@@ -81,17 +76,16 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant="default"
-          size="sm"
-          className="rounded-full gap-2 px-3 py-1.5 h-auto bg-primary"
-        >
+        <Button variant="default" size="sm" className="h-10 rounded-xl px-2.5 sm:px-3">
           <Heart className="h-4 w-4 fill-current" />
           <span className="hidden sm:inline text-sm font-medium">{titleText}</span>
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="bottom" className="sm:max-w-md sm:mx-auto sm:rounded-t-2xl">
+      <SheetContent
+        side="bottom"
+        className="rounded-t-3xl border-border/70 bg-card/96 shadow-2xl backdrop-blur-2xl sm:mx-auto sm:max-w-md"
+      >
         <SheetHeader className="text-center space-y-2 pb-2">
           <div className="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
             <Coffee className="h-6 w-6 text-primary" />
@@ -100,9 +94,7 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
         </SheetHeader>
 
         <div className="space-y-6 py-4">
-          <p className="text-sm text-muted-foreground text-center leading-relaxed">
-            {descText}
-          </p>
+          <p className="text-sm text-muted-foreground text-center leading-relaxed">{descText}</p>
 
           <div className="flex items-start gap-3 rounded-xl bg-amber-500/10 border border-amber-500/20 px-4 py-3">
             <Smartphone className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
@@ -135,11 +127,7 @@ export function SupportProject({ language = "pt-br" }: SupportProjectProps) {
               {copied ? (
                 <>
                   <Check className="h-4 w-4 text-green-500" />
-                  {language === "pt-br"
-                    ? "Copiado!"
-                    : language === "es"
-                      ? "¡Copiado!"
-                      : "Copied!"}
+                  {language === "pt-br" ? "Copiado!" : language === "es" ? "¡Copiado!" : "Copied!"}
                 </>
               ) : (
                 <>

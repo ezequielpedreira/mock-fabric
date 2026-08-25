@@ -143,19 +143,19 @@ export default function Admin() {
   const activeCount = savedQuestions.filter((item) => item.is_active).length;
 
   return (
-    <div className="min-h-screen bg-muted/20">
+    <div className="min-h-screen fabric-ambient">
       <Header language={language} onLanguageChange={setLanguage} title="Portal Administrativo" />
       <HorizontalNav language={language} />
 
-      <main className="container space-y-8 py-10">
-        <section className="overflow-hidden rounded-2xl border bg-card shadow-sm">
-          <div className="grid gap-6 bg-gradient-to-br from-primary/15 via-background to-accent/10 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+      <main className="container space-y-8 py-8 sm:py-12">
+        <section className="premium-panel overflow-hidden rounded-3xl">
+          <div className="fabric-gradient-soft grid gap-6 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-9">
             <div className="space-y-3">
               <Badge className="gap-2">
                 <ShieldCheck className="h-4 w-4" />
                 Acesso exclusivo do administrador
               </Badge>
-              <h1 className="text-3xl font-bold tracking-tight">
+              <h1 className="text-3xl font-bold tracking-[-0.04em] sm:text-4xl">
                 Banco de perguntas do Treino e da Prova
               </h1>
               <p className="max-w-2xl text-muted-foreground">
@@ -164,11 +164,11 @@ export default function Admin() {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3 text-center">
-              <div className="rounded-xl border bg-background/80 p-4">
+              <div className="premium-surface rounded-2xl p-4">
                 <div className="text-2xl font-bold">{savedQuestions.length}</div>
                 <div className="text-xs text-muted-foreground">Cadastradas</div>
               </div>
-              <div className="rounded-xl border bg-background/80 p-4">
+              <div className="premium-surface rounded-2xl p-4">
                 <div className="text-2xl font-bold text-emerald-600">{activeCount}</div>
                 <div className="text-xs text-muted-foreground">Publicadas</div>
               </div>
@@ -177,7 +177,7 @@ export default function Admin() {
         </section>
 
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1.15fr)_minmax(340px,0.85fr)]">
-          <Card>
+          <Card className="premium-panel rounded-3xl">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Plus className="h-5 w-5 text-primary" />
@@ -267,7 +267,7 @@ export default function Admin() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="flex items-center justify-between rounded-xl border p-4">
+                  <div className="flex items-center justify-between rounded-2xl border bg-background/55 p-4">
                     <div>
                       <Label htmlFor="publish-now">Publicar agora</Label>
                       <p className="text-xs text-muted-foreground">
@@ -302,7 +302,7 @@ export default function Admin() {
             </CardContent>
           </Card>
 
-          <Card className="h-fit">
+          <Card className="premium-panel h-fit rounded-3xl">
             <CardHeader>
               <CardTitle>Perguntas cadastradas</CardTitle>
               <CardDescription>Ative ou pause a publicação sem excluir o conteúdo.</CardDescription>
@@ -318,7 +318,7 @@ export default function Admin() {
                 </div>
               ) : (
                 savedQuestions.map((item) => (
-                  <div key={item.id} className="rounded-xl border p-4">
+                  <div key={item.id} className="interactive-card rounded-2xl border bg-card/80 p-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0 space-y-2">
                         <Badge variant="outline">{item.category}</Badge>

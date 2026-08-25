@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { SupportProject } from "@/components/SupportProject";
-import fabricLogo from "@/assets/fabric-logo.webp.asset.json";
+import { FabricMark } from "@/components/FabricMark";
 
 interface HorizontalNavProps {
   language: Language;
@@ -54,21 +54,29 @@ export function HorizontalNav({
   ];
 
   return (
-    <nav className="bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/70 border-b border-border sticky top-0 z-40 shadow-sm">
-      <div className="container flex items-center gap-1 sm:gap-2 py-1.5">
+    <nav className="sticky top-0 z-40 border-b border-white/60 bg-card/78 shadow-[0_10px_35px_-28px_oklch(0.25_0.12_255/0.45)] backdrop-blur-2xl supports-[backdrop-filter]:bg-card/72">
+      <div className="container flex min-h-16 items-center gap-1 py-2 sm:gap-2">
         {/* Brand */}
         <Link
           to="/"
-          className="flex items-center gap-2 pr-2 sm:pr-3 mr-1 border-r border-border/60 shrink-0"
+          className="group mr-1 flex shrink-0 items-center gap-2 border-r border-border/70 pr-2 sm:pr-4"
+          aria-label="Mock Fabric DP-600 — início"
         >
-          <img src={fabricLogo.url} alt="Microsoft Fabric" className="h-7 w-7 object-contain" />
-          <span className="hidden sm:inline text-sm font-bold tracking-tight text-foreground">
-            DP-600
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-[0_8px_22px_-13px_oklch(0.35_0.16_255/0.45)] ring-1 ring-border/60 transition-transform duration-300 group-hover:-rotate-2 group-hover:scale-105">
+            <FabricMark className="h-7 w-7" />
+          </span>
+          <span className="hidden leading-none md:block">
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              Mock Fabric
+            </span>
+            <span className="mt-1 block text-sm font-bold tracking-tight text-foreground">
+              DP-600
+            </span>
           </span>
         </Link>
 
         {/* Nav items */}
-        <ul className="flex items-center gap-0.5 sm:gap-1 overflow-x-auto scrollbar-none flex-1 min-w-0">
+        <ul className="scrollbar-none flex min-w-0 flex-1 items-center gap-1 overflow-x-auto sm:gap-1.5">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = item.isLink ? location.pathname === item.href : false;
@@ -79,14 +87,16 @@ export function HorizontalNav({
                   <Link
                     to={item.href}
                     className={cn(
-                      "flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
+                      "flex h-11 items-center gap-2 rounded-xl px-3 text-sm font-semibold transition-[background-color,color,box-shadow,transform] duration-200 whitespace-nowrap",
                       isActive
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                        ? "fabric-gradient text-white shadow-[0_10px_25px_-15px_color-mix(in_oklch,var(--primary)_85%,transparent)]"
+                        : "text-muted-foreground hover:bg-secondary/80 hover:text-foreground",
                     )}
+                    title={item.label}
+                    aria-current={isActive ? "page" : undefined}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
-                    <span className="hidden sm:inline">{item.label}</span>
+                    <span className="hidden lg:inline">{item.label}</span>
                   </Link>
                 </li>
               );
@@ -96,7 +106,7 @@ export function HorizontalNav({
               <li key={item.label} className="shrink-0">
                 <button
                   onClick={() => onScrollToSection?.(item.href)}
-                  className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap text-muted-foreground hover:bg-muted hover:text-foreground"
+                  className="flex h-11 items-center gap-2 whitespace-nowrap rounded-xl px-3 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary/80 hover:text-foreground"
                 >
                   <Icon className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">{item.label}</span>
@@ -107,7 +117,7 @@ export function HorizontalNav({
         </ul>
 
         {/* Right cluster: support + language + logout */}
-        <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
+        <div className="flex shrink-0 items-center gap-0.5 border-l border-border/70 pl-1 sm:gap-1 sm:pl-2">
           <SupportProject language={language} />
 
           {onLanguageChange && (
@@ -116,7 +126,8 @@ export function HorizontalNav({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground px-1.5 sm:px-3"
+                  className="h-10 gap-1.5 px-2 text-muted-foreground hover:text-foreground sm:gap-2 sm:px-3"
+                  aria-label={`Idioma: ${languageLabels[language]}`}
                 >
                   <Globe className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">{languageLabels[language]}</span>
@@ -142,7 +153,7 @@ export function HorizontalNav({
                 variant="ghost"
                 size="sm"
                 onClick={handleSignOut}
-                className="gap-1.5 sm:gap-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 px-1.5 sm:px-3"
+                className="h-10 gap-1.5 px-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive sm:gap-2 sm:px-3"
                 title={t.signOut}
               >
                 <LogOut className="h-4 w-4 shrink-0" />

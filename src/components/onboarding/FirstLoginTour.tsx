@@ -89,10 +89,10 @@ export function FirstLoginTour() {
 
   return (
     <Dialog open={open}>
-      <DialogContent className="max-h-[calc(100dvh-1rem)] w-[calc(100%-1rem)] max-w-xl overflow-y-auto rounded-2xl p-0">
-        <div className="bg-gradient-to-br from-primary/15 via-background to-accent/15 px-4 pb-4 pt-6 sm:px-8 sm:pb-6 sm:pt-8">
+      <DialogContent className="max-h-[calc(100dvh-1rem)] w-[calc(100%-1rem)] max-w-xl overflow-y-auto rounded-3xl border-white/70 p-0 shadow-2xl">
+        <div className="fabric-gradient-soft px-4 pb-4 pt-6 sm:px-8 sm:pb-6 sm:pt-8">
           <div className="mb-4 flex items-center justify-between gap-3 sm:mb-6 sm:gap-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg sm:h-12 sm:w-12 sm:rounded-2xl">
+            <div className="fabric-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 sm:rounded-2xl">
               <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
             <span className="rounded-full border border-border bg-background/80 px-2.5 py-1 text-[11px] font-semibold text-muted-foreground sm:px-3 sm:text-xs">
@@ -109,7 +109,7 @@ export function FirstLoginTour() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="mt-4 rounded-xl border border-border/70 bg-background/75 p-3 text-sm leading-relaxed text-foreground shadow-sm sm:mt-5 sm:p-4">
+          <div className="premium-surface mt-4 rounded-2xl p-3 text-sm leading-relaxed text-foreground sm:mt-5 sm:p-4">
             {step.detail}
           </div>
         </div>
@@ -121,7 +121,7 @@ export function FirstLoginTour() {
                 key={item.title}
                 className={cn(
                   "h-1.5 flex-1 rounded-full transition-colors",
-                  index <= stepIndex ? "bg-primary" : "bg-muted",
+                  index <= stepIndex ? "fabric-gradient" : "bg-muted",
                 )}
               />
             ))}

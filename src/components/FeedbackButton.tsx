@@ -19,11 +19,7 @@ import { notifyFeedback } from "@/lib/feedback.functions";
 
 const feedbackSchema = z.object({
   rating: z.number().int().min(1, "Selecione uma nota").max(5),
-  comment: z
-    .string()
-    .trim()
-    .max(2000, "Comentário muito longo (máx. 2000 caracteres)")
-    .optional(),
+  comment: z.string().trim().max(2000, "Comentário muito longo (máx. 2000 caracteres)").optional(),
 });
 
 export function FeedbackButton() {
@@ -56,10 +52,7 @@ export function FeedbackButton() {
     setSubmitting(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
-      const page =
-        typeof window !== "undefined"
-          ? window.location.pathname
-          : null;
+      const page = typeof window !== "undefined" ? window.location.pathname : null;
 
       const { error } = await supabase.from("feedback").insert({
         user_id: userData.user?.id ?? null,
@@ -108,13 +101,13 @@ export function FeedbackButton() {
         <Button
           size="lg"
           aria-label="Enviar feedback"
-          className="fixed bottom-6 right-6 z-50 h-12 gap-2 rounded-full shadow-lg shadow-primary/30 hover:shadow-primary/40"
+          className="fixed bottom-4 right-4 z-50 h-12 w-12 gap-2 rounded-full p-0 shadow-lg shadow-primary/25 hover:shadow-primary/35 sm:bottom-6 sm:right-6 sm:w-auto sm:px-7"
         >
           <MessageSquarePlus className="h-5 w-5" />
           <span className="hidden sm:inline">Feedback</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-[calc(100%-1rem)] rounded-3xl border-white/70 shadow-2xl sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Como está sua experiência?</DialogTitle>
           <DialogDescription>
@@ -133,15 +126,13 @@ export function FeedbackButton() {
                   onClick={() => setRating(n)}
                   onMouseEnter={() => setHover(n)}
                   onMouseLeave={() => setHover(0)}
-                  className="p-1 transition-transform hover:scale-110"
+                  className="flex h-11 w-11 items-center justify-center rounded-xl transition-transform hover:scale-110 hover:bg-warning/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                   aria-label={`${n} estrela${n > 1 ? "s" : ""}`}
                 >
                   <Star
                     className={cn(
                       "h-8 w-8 transition-colors",
-                      active
-                        ? "fill-warning text-warning"
-                        : "text-muted-foreground/40"
+                      active ? "fill-warning text-warning" : "text-muted-foreground/40",
                     )}
                   />
                 </button>
@@ -157,18 +148,12 @@ export function FeedbackButton() {
               rows={4}
               maxLength={2000}
             />
-            <p className="text-right text-xs text-muted-foreground">
-              {comment.length}/2000
-            </p>
+            <p className="text-right text-xs text-muted-foreground">{comment.length}/2000</p>
           </div>
         </div>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => setOpen(false)}
-            disabled={submitting}
-          >
+          <Button variant="outline" onClick={() => setOpen(false)} disabled={submitting}>
             Cancelar
           </Button>
           <Button onClick={handleSubmit} disabled={submitting || rating === 0}>

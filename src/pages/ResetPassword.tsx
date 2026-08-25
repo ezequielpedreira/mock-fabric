@@ -7,6 +7,11 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { Lock, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { FabricMark } from "@/components/FabricMark";
+
+function getErrorMessage(error: unknown) {
+  return error instanceof Error ? error.message : "Não foi possível atualizar a senha.";
+}
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -19,7 +24,9 @@ const ResetPassword = () => {
   useEffect(() => {
     // Supabase parses the recovery token from the URL hash automatically
     // and emits a PASSWORD_RECOVERY event with a temporary session.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") setReady(true);
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -41,22 +48,25 @@ const ResetPassword = () => {
       toast({ title: "Senha atualizada!", description: "Faça login com sua nova senha." });
       await supabase.auth.signOut();
       navigate("/login", { replace: true });
-    } catch (err: any) {
-      toast({ title: "Erro", description: err.message, variant: "destructive" });
+    } catch (error: unknown) {
+      toast({ title: "Erro", description: getErrorMessage(error), variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 px-4">
-      <Card className="w-full max-w-md shadow-xl border-border/50">
+    <div className="fabric-ambient relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-8">
+      <div className="pointer-events-none absolute left-[12%] top-[12%] h-64 w-64 rounded-full bg-fabric-cyan/12 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-[8%] right-[10%] h-72 w-72 rounded-full bg-fabric-pink/10 blur-3xl" />
+      <Card className="premium-panel relative w-full max-w-md rounded-3xl">
         <CardHeader className="text-center space-y-2">
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-lg ring-1 ring-border/60">
+            <FabricMark className="h-9 w-9" />
+          </div>
           <CardTitle className="text-2xl font-bold">Redefinir senha</CardTitle>
           <CardDescription>
-            {ready
-              ? "Defina uma nova senha para sua conta"
-              : "Validando link de recuperação..."}
+            {ready ? "Defina uma nova senha para sua conta" : "Validando link de recuperação..."}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -92,7 +102,13 @@ const ResetPassword = () => {
                   />
                 </div>
               </div>
-              <Button type="submit" variant="hero" size="lg" className="w-full" disabled={submitting}>
+              <Button
+                type="submit"
+                variant="hero"
+                size="lg"
+                className="w-full"
+                disabled={submitting}
+              >
                 {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
                 Atualizar senha
               </Button>

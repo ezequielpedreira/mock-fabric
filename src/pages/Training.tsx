@@ -155,7 +155,7 @@ const Training = () => {
 
   if (questionsLoading) {
     return (
-      <div className="flex h-screen flex-col overflow-hidden">
+      <div className="fabric-ambient flex h-screen flex-col overflow-hidden">
         <Header
           language={language}
           onLanguageChange={setLanguage}
@@ -172,7 +172,7 @@ const Training = () => {
 
   if (phase === "select") {
     return (
-      <div className="flex flex-col h-screen overflow-hidden">
+      <div className="fabric-ambient flex h-screen flex-col overflow-hidden">
         <Header
           language={language}
           onLanguageChange={setLanguage}
@@ -187,7 +187,7 @@ const Training = () => {
 
   if (phase === "diagnostic") {
     return (
-      <div className="flex flex-col h-screen overflow-hidden">
+      <div className="fabric-ambient flex h-screen flex-col overflow-hidden">
         <Header
           language={language}
           onLanguageChange={setLanguage}
@@ -223,7 +223,7 @@ const Training = () => {
   );
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="fabric-ambient flex h-screen flex-col overflow-hidden">
       <Header
         language={language}
         onLanguageChange={setLanguage}
@@ -233,7 +233,7 @@ const Training = () => {
       <div className="flex flex-1 overflow-hidden">
         <div className="hidden lg:flex">{sidebar}</div>
         <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="lg:hidden flex items-center justify-between gap-2 px-3 py-2 border-b border-border bg-card">
+          <div className="flex items-center justify-between gap-2 border-b border-border/70 bg-card/85 px-3 py-2 backdrop-blur-xl lg:hidden">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="sm" className="gap-2">

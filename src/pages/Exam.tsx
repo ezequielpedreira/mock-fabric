@@ -130,7 +130,7 @@ const Exam = () => {
 
   if (!currentQuestion) {
     return (
-      <div className="flex h-screen flex-col overflow-hidden">
+      <div className="fabric-ambient flex h-screen flex-col overflow-hidden">
         <Header
           language={language}
           onLanguageChange={setLanguage}
@@ -146,7 +146,7 @@ const Exam = () => {
 
   if (finished) {
     return (
-      <div className="flex flex-col h-screen overflow-hidden">
+      <div className="fabric-ambient flex h-screen flex-col overflow-hidden">
         <Header
           language={language}
           onLanguageChange={setLanguage}
@@ -166,7 +166,7 @@ const Exam = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="fabric-ambient flex h-screen flex-col overflow-hidden">
       <Header
         language={language}
         onLanguageChange={setLanguage}
@@ -175,7 +175,7 @@ const Exam = () => {
       />
 
       {/* Timer bar */}
-      <div className="flex items-center justify-between gap-2 flex-wrap px-3 sm:px-6 py-2 sm:py-3 bg-card border-b border-border">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/70 bg-card/85 px-3 py-2 backdrop-blur-xl sm:px-6 sm:py-3">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Clock className="h-4 w-4" />
           <span

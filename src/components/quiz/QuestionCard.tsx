@@ -1,4 +1,14 @@
-import { CheckCircle2, XCircle, AlertTriangle, ChevronLeft, ChevronRight, Lightbulb, ExternalLink, CheckCircle, Flag } from "lucide-react";
+import {
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  ChevronLeft,
+  ChevronRight,
+  Lightbulb,
+  ExternalLink,
+  CheckCircle,
+  Flag,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type Question, type Language } from "@/data/questions";
 import { translations } from "@/data/translations";
@@ -148,23 +158,31 @@ interface QuestionCardProps {
 }
 
 export function QuestionCard({
-  question, language, currentIndex, totalQuestions,
-  selectedOption, isChecked,
-  onSelectOption, onCheck, onNext, onPrevious, onFinish,
+  question,
+  language,
+  currentIndex,
+  totalQuestions,
+  selectedOption,
+  isChecked,
+  onSelectOption,
+  onCheck,
+  onNext,
+  onPrevious,
+  onFinish,
 }: QuestionCardProps) {
   const t = translations[language];
   const isCorrect = isChecked && selectedOption === question.correctAnswer;
   const isLast = currentIndex === totalQuestions - 1;
 
   return (
-    <div className="p-4 sm:p-6 md:p-10">
+    <div className="fabric-ambient min-h-full p-3 sm:p-6 md:p-10">
       <div
-        className={`max-w-3xl mx-auto animate-fade-in rounded-2xl border-2 transition-all duration-300 ${
+        className={`premium-surface max-w-3xl mx-auto animate-fade-in rounded-3xl border transition-all duration-300 p-4 sm:p-6 ${
           isChecked
             ? isCorrect
-              ? "border-success/60 ring-4 ring-success/60 bg-success/5 shadow-[0_0_40px_-10px_hsl(var(--success)/0.5)] p-4 sm:p-6"
-              : "border-destructive/60 ring-4 ring-destructive/60 bg-destructive/5 p-4 sm:p-6"
-            : "border-transparent"
+              ? "border-success/45 ring-4 ring-success/12 bg-success/5"
+              : "border-destructive/45 ring-4 ring-destructive/12 bg-destructive/5"
+            : "border-border/65"
         }`}
       >
         {/* Question number & category */}
@@ -181,15 +199,19 @@ export function QuestionCard({
 
         {/* Scenario + Question */}
         <div
-          className={`relative rounded-2xl border-2 p-6 sm:p-8 mb-8 shadow-lg overflow-hidden transition-all duration-300 ${
+          className={`relative mb-8 overflow-hidden rounded-2xl border p-5 shadow-sm transition-all duration-300 sm:p-8 ${
             isCorrect
-              ? "bg-gradient-to-br from-success/10 via-card to-card border-success/40 shadow-[0_0_40px_-10px_hsl(var(--success)/0.3)]"
-              : "bg-gradient-to-br from-warning/10 via-card to-card border-warning/40"
+              ? "bg-gradient-to-br from-success/9 via-card to-card border-success/30"
+              : "bg-gradient-to-br from-warning/8 via-card to-card border-warning/25"
           }`}
         >
-          <div className={`absolute top-0 left-0 w-1.5 h-full ${isCorrect ? "bg-success" : "bg-warning"}`} />
+          <div
+            className={`absolute top-0 left-0 w-1.5 h-full ${isCorrect ? "bg-success" : "bg-warning"}`}
+          />
           <div className="flex items-start gap-4 mb-6">
-            <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${isCorrect ? "bg-success/20" : "bg-warning/20"}`}>
+            <div
+              className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${isCorrect ? "bg-success/20" : "bg-warning/20"}`}
+            >
               {isCorrect ? (
                 <CheckCircle className="h-6 w-6 text-success" />
               ) : (
@@ -197,7 +219,9 @@ export function QuestionCard({
               )}
             </div>
             <div className="flex-1">
-              <h3 className={`text-sm font-bold mb-3 uppercase tracking-widest ${isCorrect ? "text-success" : "text-warning"}`}>
+              <h3
+                className={`text-sm font-bold mb-3 uppercase tracking-widest ${isCorrect ? "text-success" : "text-warning"}`}
+              >
                 {isCorrect ? t.correct : t.scenario}
               </h3>
               <p className="text-foreground text-base sm:text-lg leading-relaxed font-medium break-words whitespace-pre-wrap">
@@ -219,7 +243,8 @@ export function QuestionCard({
           {question.options.map((opt) => {
             const isSelected = selectedOption === opt.key;
             const isCorrectOpt = opt.key === question.correctAnswer;
-            let optionClasses = "border-border bg-card hover:bg-option-hover hover:border-primary/30";
+            let optionClasses =
+              "border-border bg-card hover:bg-option-hover hover:border-primary/30";
 
             if (isChecked) {
               if (isCorrectOpt) {
@@ -238,17 +263,19 @@ export function QuestionCard({
                 key={opt.key}
                 onClick={() => !isChecked && onSelectOption(opt.key)}
                 disabled={isChecked}
-                className={`w-full flex items-start gap-4 p-4 rounded-xl border-2 transition-all text-left min-w-0 overflow-hidden ${optionClasses}`}
+                className={`w-full min-h-14 flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-2xl border transition-[transform,background-color,border-color,box-shadow,opacity] duration-200 text-left min-w-0 overflow-hidden focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/15 enabled:hover:-translate-y-0.5 ${optionClasses}`}
               >
-                <span className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 mt-0.5 ${
-                  isChecked && isCorrectOpt
-                    ? "bg-success text-success-foreground"
-                    : isChecked && isSelected && !isCorrectOpt
-                    ? "bg-destructive text-destructive-foreground"
-                    : isSelected
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-secondary-foreground"
-                }`}>
+                <span
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 mt-0.5 ${
+                    isChecked && isCorrectOpt
+                      ? "bg-success text-success-foreground"
+                      : isChecked && isSelected && !isCorrectOpt
+                        ? "bg-destructive text-destructive-foreground"
+                        : isSelected
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-secondary-foreground"
+                  }`}
+                >
                   {isChecked && isCorrectOpt ? (
                     <CheckCircle2 className="h-5 w-5" />
                   ) : isChecked && isSelected && !isCorrectOpt ? (
@@ -257,7 +284,9 @@ export function QuestionCard({
                     opt.key
                   )}
                 </span>
-                <span className="text-foreground font-medium min-w-0 flex-1 break-words whitespace-pre-wrap overflow-hidden max-w-full">{opt.text[language]}</span>
+                <span className="text-foreground font-medium min-w-0 flex-1 break-words whitespace-pre-wrap overflow-hidden max-w-full">
+                  {opt.text[language]}
+                </span>
               </button>
             );
           })}
@@ -265,9 +294,13 @@ export function QuestionCard({
 
         {/* Feedback */}
         {isChecked && (
-          <div className={`rounded-xl p-5 mb-8 animate-fade-in ${
-            isCorrect ? "bg-success/10 border border-success/20" : "bg-destructive/10 border border-destructive/20"
-          }`}>
+          <div
+            className={`rounded-xl p-5 mb-8 animate-fade-in ${
+              isCorrect
+                ? "bg-success/10 border border-success/20"
+                : "bg-destructive/10 border border-destructive/20"
+            }`}
+          >
             <div className="flex items-center gap-2 mb-2">
               {isCorrect ? (
                 <CheckCircle2 className="h-5 w-5 text-success" />
@@ -281,8 +314,12 @@ export function QuestionCard({
             <div className="flex items-start gap-2 mt-3">
               <Lightbulb className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
               <div>
-                <p className="text-xs font-semibold text-muted-foreground mb-1 uppercase">{t.explanation}</p>
-                <p className="text-sm text-foreground leading-relaxed">{question.explanation[language]}</p>
+                <p className="text-xs font-semibold text-muted-foreground mb-1 uppercase">
+                  {t.explanation}
+                </p>
+                <p className="text-sm text-foreground leading-relaxed">
+                  {question.explanation[language]}
+                </p>
                 {questionDocLinks[question.id] && (
                   <a
                     href={questionDocLinks[question.id]}
@@ -291,10 +328,13 @@ export function QuestionCard({
                     className="inline-flex items-center gap-1.5 mt-3 text-sm font-medium text-primary hover:underline"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
-                    {language === "pt-br" ? "Ver documentação Microsoft" :
-                     language === "es" ? "Ver documentación Microsoft" :
-                     language === "fr" ? "Voir la documentation Microsoft" :
-                     "View Microsoft documentation"}
+                    {language === "pt-br"
+                      ? "Ver documentação Microsoft"
+                      : language === "es"
+                        ? "Ver documentación Microsoft"
+                        : language === "fr"
+                          ? "Voir la documentation Microsoft"
+                          : "View Microsoft documentation"}
                   </a>
                 )}
               </div>
@@ -303,41 +343,40 @@ export function QuestionCard({
         )}
 
         {/* Navigation */}
-        <div className="flex items-center justify-between gap-4 sm:gap-6">
+        <div className="flex flex-col-reverse items-stretch justify-between gap-3 sm:flex-row sm:items-center sm:gap-6">
           <Button
             variant="outline"
             onClick={onPrevious}
             disabled={currentIndex === 0}
-            className="gap-2"
+            className="w-full gap-2 sm:w-auto"
           >
             <ChevronLeft className="h-4 w-4" />
             {t.previous}
           </Button>
 
           {!isChecked ? (
-            <Button
-              onClick={onCheck}
-              disabled={!selectedOption}
-              className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
-            >
+            <Button onClick={onCheck} disabled={!selectedOption} className="w-full gap-2 sm:w-auto">
               {t.checkAnswer}
             </Button>
           ) : isLast && onFinish ? (
             <Button
               onClick={onFinish}
-              className="gap-2 bg-success text-success-foreground hover:bg-success/90"
+              className="w-full gap-2 bg-success text-success-foreground hover:bg-success/90 sm:w-auto"
             >
               <Flag className="h-4 w-4" />
-              {language === "pt-br" ? "Finalizar e ver diagnóstico" :
-               language === "es" ? "Finalizar y ver diagnóstico" :
-               language === "fr" ? "Terminer et voir le diagnostic" :
-               "Finish and view diagnostic"}
+              {language === "pt-br"
+                ? "Finalizar e ver diagnóstico"
+                : language === "es"
+                  ? "Finalizar y ver diagnóstico"
+                  : language === "fr"
+                    ? "Terminer et voir le diagnostic"
+                    : "Finish and view diagnostic"}
             </Button>
           ) : (
             <Button
               onClick={onNext}
               disabled={currentIndex === totalQuestions - 1}
-              className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+              className="w-full gap-2 sm:w-auto"
             >
               {t.next}
               <ChevronRight className="h-4 w-4" />
