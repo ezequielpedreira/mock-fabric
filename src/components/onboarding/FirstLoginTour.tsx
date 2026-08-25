@@ -52,8 +52,8 @@ const baseSteps = [
   {
     title: "Laboratório",
     description:
-      "Acesse materiais oficiais, vídeos e as perguntas publicadas pelo administrador diretamente no Supabase.",
-    detail: "Suas respostas no laboratório também ficam registradas no banco.",
+      "Acesse materiais oficiais, treinamentos, avaliações práticas e vídeos para complementar seus estudos.",
+    detail: "Use os recursos do laboratório para aprofundar os temas da certificação.",
     icon: FlaskConical,
   },
 ];
@@ -61,7 +61,7 @@ const baseSteps = [
 const adminStep = {
   title: "Portal Administrativo",
   description:
-    "Cadastre perguntas, alternativas, resposta correta e explicação. A publicação aparece automaticamente no Laboratório.",
+    "Cadastre perguntas, alternativas, resposta correta e explicação. A publicação entra automaticamente nos modos Treino e Prova.",
   detail: "O acesso e as gravações são protegidos pelas políticas do Supabase.",
   icon: ShieldCheck,
 };

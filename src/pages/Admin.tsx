@@ -120,8 +120,8 @@ export default function Admin() {
 
     resetForm();
     await queryClient.invalidateQueries({ queryKey: ["admin-questions"] });
-    await queryClient.invalidateQueries({ queryKey: ["lab-questions"] });
-    toast.success("Pergunta salva e conectada ao Laboratório.");
+    await queryClient.invalidateQueries({ queryKey: ["published-questions"] });
+    toast.success("Pergunta salva e publicada nos modos Treino e Prova.");
   };
 
   const toggleQuestion = async (row: QuestionRow) => {
@@ -135,7 +135,7 @@ export default function Admin() {
     }
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: ["admin-questions"] }),
-      queryClient.invalidateQueries({ queryKey: ["lab-questions"] }),
+      queryClient.invalidateQueries({ queryKey: ["published-questions"] }),
     ]);
   };
 
@@ -156,11 +156,11 @@ export default function Admin() {
                 Acesso exclusivo do administrador
               </Badge>
               <h1 className="text-3xl font-bold tracking-tight">
-                Banco de perguntas do Laboratório
+                Banco de perguntas do Treino e da Prova
               </h1>
               <p className="max-w-2xl text-muted-foreground">
                 Cadastre perguntas em português. As alternativas, a resposta correta e a explicação
-                são gravadas no Supabase e publicadas no Laboratório.
+                são gravadas no Supabase e publicadas nos modos Treino e Prova.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3 text-center">
@@ -270,7 +270,9 @@ export default function Admin() {
                   <div className="flex items-center justify-between rounded-xl border p-4">
                     <div>
                       <Label htmlFor="publish-now">Publicar agora</Label>
-                      <p className="text-xs text-muted-foreground">Disponível no Laboratório</p>
+                      <p className="text-xs text-muted-foreground">
+                        Disponível no Treino e na Prova
+                      </p>
                     </div>
                     <Switch id="publish-now" checked={isActive} onCheckedChange={setIsActive} />
                   </div>

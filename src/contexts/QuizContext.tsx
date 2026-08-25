@@ -7,10 +7,12 @@ import React, {
   useEffect,
   type ReactNode,
 } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { questions, type Language, type Question } from "@/data/questions";
 import { type Domain, type UserStats, initialUserStats } from "@/types/quiz";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { toQuizQuestion } from "@/lib/supabase-questions";
 
 export interface AnswerRecord {
   questionId: number;
@@ -42,6 +44,7 @@ interface QuizContextValue {
   language: Language;
   setLanguage: (lang: Language) => void;
   allQuestions: Question[];
+  questionsLoading: boolean;
   userStats: UserStats;
   previousStats: PreviousSnapshot | null;
   answers: AnswerRecord[];
@@ -59,6 +62,25 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const [quizCount, setQuizCount] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [previousStats, setPreviousStats] = useState<PreviousSnapshot | null>(null);
+  const publishedQuestionsQuery = useQuery({
+    queryKey: ["published-questions"],
+    enabled: Boolean(user),
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("questions")
+        .select("*")
+        .eq("is_active", true)
+        .order("id", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+  const publishedQuestions = useMemo(
+    () => (publishedQuestionsQuery.data ?? []).flatMap((row) => toQuizQuestion(row) ?? []),
+    [publishedQuestionsQuery.data],
+  );
+  const allQuestions = useMemo(() => [...questions, ...publishedQuestions], [publishedQuestions]);
+  const questionsLoading = Boolean(user) && !publishedQuestionsQuery.isFetched;
 
   // Load user's history from DB when logged in
   useEffect(() => {
@@ -97,7 +119,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
   const recordAnswer = useCallback(
     (questionId: number, selectedAnswer: string, timeSpent: number) => {
-      const question = questions.find((q) => q.id === questionId);
+      const question = allQuestions.find((q) => q.id === questionId);
       if (!question) return;
       const isCorrect = selectedAnswer === question.correctAnswer;
       setAnswers((prev) => {
@@ -122,7 +144,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
           });
       }
     },
-    [user],
+    [allQuestions, user],
   );
 
   const completeQuiz = useCallback(() => {
@@ -155,7 +177,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     const avgScore = answers.length > 0 ? Math.round((correct / answers.length) * 100) : 0;
 
     const domainStats = { ...initialUserStats.domainStats };
-    for (const q of questions) {
+    for (const q of allQuestions) {
       const domain = categoryToDomain[q.category] || "preparar-dados";
       const ans = answers.find((a) => a.questionId === q.id);
       if (ans) {
@@ -174,14 +196,15 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       bestScore,
       domainStats,
     };
-  }, [answers, quizCount, bestScore]);
+  }, [allQuestions, answers, quizCount, bestScore]);
 
   return (
     <QuizContext.Provider
       value={{
         language,
         setLanguage,
-        allQuestions: questions,
+        allQuestions,
+        questionsLoading,
         userStats,
         previousStats,
         answers,

@@ -1,7 +1,6 @@
 import { useQuiz } from "@/contexts/QuizContext";
 import { Header } from "@/components/quiz/Header";
 import { HorizontalNav } from "@/components/landing/HorizontalNav";
-import { LabQuestionBank } from "@/components/lab/LabQuestionBank";
 
 import { translations } from "@/data/translations";
 import { Card, CardContent } from "@/components/ui/card";
@@ -285,8 +284,6 @@ const Lab = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t.navLab}</h1>
             <p className="text-muted-foreground">{t.labDescription}</p>
           </div>
-
-          <LabQuestionBank />
 
           {/* Introdução ao Microsoft Fabric */}
           <div className="mb-12 border-2 border-border/50 rounded-2xl p-6">

@@ -7,7 +7,6 @@ import { QuestionCard } from "@/components/quiz/QuestionCard";
 import { WeakTopicsCard } from "@/components/quiz/WeakTopicsCard";
 import { CategorySelector } from "@/components/quiz/CategorySelector";
 import { DiagnosticReport } from "@/components/quiz/DiagnosticReport";
-import { questions } from "@/data/questions";
 import { HorizontalNav } from "@/components/landing/HorizontalNav";
 
 import { translations } from "@/data/translations";
@@ -19,7 +18,7 @@ import type { AnswerRecord } from "@/contexts/QuizContext";
 type Phase = "select" | "quiz" | "diagnostic";
 
 const Training = () => {
-  const { language, setLanguage, recordAnswer } = useQuiz();
+  const { language, setLanguage, allQuestions, questionsLoading, recordAnswer } = useQuiz();
   const navigate = useNavigate();
   const t = translations[language];
 
@@ -32,7 +31,9 @@ const Training = () => {
   const [localAnswers, setLocalAnswers] = useState<AnswerRecord[]>([]);
 
   const filteredQuestions = useMemo(() => {
-    const base = categoryFilter ? questions.filter((q) => q.category === categoryFilter) : questions;
+    const base = categoryFilter
+      ? allQuestions.filter((q) => q.category === categoryFilter)
+      : allQuestions;
     const shuffle = <T,>(arr: T[]): T[] => {
       const a = [...arr];
       for (let i = a.length - 1; i > 0; i--) {
@@ -47,10 +48,11 @@ const Training = () => {
       const orderedKeys = q.options.map((o) => o.key);
       const originalCorrectText = q.options.find((o) => o.key === q.correctAnswer)?.text;
       const newOptions = orderedKeys.map((key, idx) => ({ key, text: shuffledTexts[idx] }));
-      const newCorrect = newOptions.find((o) => o.text === originalCorrectText)?.key ?? q.correctAnswer;
+      const newCorrect =
+        newOptions.find((o) => o.text === originalCorrectText)?.key ?? q.correctAnswer;
       return { ...q, options: newOptions, correctAnswer: newCorrect };
     });
-  }, [categoryFilter]);
+  }, [allQuestions, categoryFilter]);
 
   const currentQuestion = filteredQuestions[currentIndex];
   const totalQuestions = filteredQuestions.length;
@@ -69,20 +71,28 @@ const Training = () => {
     if (!selectedOption || isChecked) return;
     const timeSpent = Math.round((Date.now() - questionStartTime) / 1000);
     const isCorrect = selectedOption === currentQuestion.correctAnswer;
-    const record: AnswerRecord = { questionId: currentQuestion.id, selectedAnswer: selectedOption, isCorrect, timeSpent };
+    const record: AnswerRecord = {
+      questionId: currentQuestion.id,
+      selectedAnswer: selectedOption,
+      isCorrect,
+      timeSpent,
+    };
 
     setLocalAnswers((prev) => [...prev.filter((a) => a.questionId !== currentQuestion.id), record]);
     recordAnswer(currentQuestion.id, selectedOption, timeSpent);
     setIsChecked(true);
   }, [selectedOption, isChecked, questionStartTime, currentQuestion, recordAnswer]);
 
-  const goToQuestion = useCallback((index: number) => {
-    setCurrentIndex(index);
-    const existing = localAnswers.find((a) => a.questionId === filteredQuestions[index].id);
-    setSelectedOption(existing?.selectedAnswer ?? null);
-    setIsChecked(!!existing);
-    setQuestionStartTime(Date.now());
-  }, [localAnswers, filteredQuestions]);
+  const goToQuestion = useCallback(
+    (index: number) => {
+      setCurrentIndex(index);
+      const existing = localAnswers.find((a) => a.questionId === filteredQuestions[index].id);
+      setSelectedOption(existing?.selectedAnswer ?? null);
+      setIsChecked(!!existing);
+      setQuestionStartTime(Date.now());
+    },
+    [localAnswers, filteredQuestions],
+  );
 
   const next = useCallback(() => {
     if (currentIndex < totalQuestions - 1) {
@@ -114,7 +124,8 @@ const Training = () => {
     const answered = localAnswers.length;
     const correct = localAnswers.filter((a) => a.isCorrect).length;
     const score = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-    const avgTime = answered > 0 ? Math.round(localAnswers.reduce((s, a) => s + a.timeSpent, 0) / answered) : 0;
+    const avgTime =
+      answered > 0 ? Math.round(localAnswers.reduce((s, a) => s + a.timeSpent, 0) / answered) : 0;
 
     const categoryStats: Record<string, { total: number; correct: number }> = {};
     for (const q of filteredQuestions) {
@@ -126,9 +137,12 @@ const Training = () => {
 
     const weakTopics = Object.entries(categoryStats)
       .map(([cat]) => {
-        const catAnswers = localAnswers.filter((a) => filteredQuestions.find((q) => q.id === a.questionId)?.category === cat);
+        const catAnswers = localAnswers.filter(
+          (a) => filteredQuestions.find((q) => q.id === a.questionId)?.category === cat,
+        );
         const catCorrect = catAnswers.filter((a) => a.isCorrect).length;
-        const accuracy = catAnswers.length > 0 ? Math.round((catCorrect / catAnswers.length) * 100) : -1;
+        const accuracy =
+          catAnswers.length > 0 ? Math.round((catCorrect / catAnswers.length) * 100) : -1;
         return { category: cat, accuracy };
       })
       .filter((t) => t.accuracy >= 0 && t.accuracy < 70)
@@ -139,10 +153,32 @@ const Training = () => {
 
   const allAnswered = localAnswers.length === totalQuestions;
 
+  if (questionsLoading) {
+    return (
+      <div className="flex h-screen flex-col overflow-hidden">
+        <Header
+          language={language}
+          onLanguageChange={setLanguage}
+          title={t.appTitle}
+          onBack={() => navigate("/")}
+        />
+        <HorizontalNav language={language} />
+        <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
+          Carregando banco de questões...
+        </div>
+      </div>
+    );
+  }
+
   if (phase === "select") {
     return (
       <div className="flex flex-col h-screen overflow-hidden">
-        <Header language={language} onLanguageChange={setLanguage} title={t.appTitle} onBack={() => navigate("/")} />
+        <Header
+          language={language}
+          onLanguageChange={setLanguage}
+          title={t.appTitle}
+          onBack={() => navigate("/")}
+        />
         <HorizontalNav language={language} />
         <CategorySelector language={language} onSelectCategory={handleSelectCategory} />
       </div>
@@ -152,7 +188,12 @@ const Training = () => {
   if (phase === "diagnostic") {
     return (
       <div className="flex flex-col h-screen overflow-hidden">
-        <Header language={language} onLanguageChange={setLanguage} title={t.appTitle} onBack={() => navigate("/")} />
+        <Header
+          language={language}
+          onLanguageChange={setLanguage}
+          title={t.appTitle}
+          onBack={() => navigate("/")}
+        />
         <HorizontalNav language={language} />
         <DiagnosticReport
           language={language}
@@ -173,7 +214,9 @@ const Training = () => {
       answers={localAnswers}
       stats={stats}
       filteredQuestions={filteredQuestions}
-      onGoToQuestion={(i) => { goToQuestion(i); }}
+      onGoToQuestion={(i) => {
+        goToQuestion(i);
+      }}
       onReset={resetQuiz}
       onFinish={allAnswered ? () => setPhase("diagnostic") : undefined}
     />
@@ -181,7 +224,12 @@ const Training = () => {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      <Header language={language} onLanguageChange={setLanguage} title={categoryFilter ? `Treino — ${categoryFilter}` : "Modo Treino — DP-600"} onBack={backToCategories} />
+      <Header
+        language={language}
+        onLanguageChange={setLanguage}
+        title={categoryFilter ? `Treino — ${categoryFilter}` : "Modo Treino — DP-600"}
+        onBack={backToCategories}
+      />
       <div className="flex flex-1 overflow-hidden">
         <div className="hidden lg:flex">{sidebar}</div>
         <div className="flex-1 flex flex-col overflow-hidden">
@@ -206,17 +254,17 @@ const Training = () => {
               <WeakTopicsCard language={language} weakTopics={stats.weakTopics} />
             )}
             <QuestionCard
-            question={currentQuestion}
-            language={language}
-            currentIndex={currentIndex}
-            totalQuestions={totalQuestions}
-            selectedOption={selectedOption}
-            isChecked={isChecked}
-            onSelectOption={setSelectedOption}
-            onCheck={checkAnswer}
-            onNext={next}
-            onPrevious={previous}
-            onFinish={allAnswered ? () => setPhase("diagnostic") : undefined}
+              question={currentQuestion}
+              language={language}
+              currentIndex={currentIndex}
+              totalQuestions={totalQuestions}
+              selectedOption={selectedOption}
+              isChecked={isChecked}
+              onSelectOption={setSelectedOption}
+              onCheck={checkAnswer}
+              onNext={next}
+              onPrevious={previous}
+              onFinish={allAnswered ? () => setPhase("diagnostic") : undefined}
             />
           </div>
         </div>
