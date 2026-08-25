@@ -1,4 +1,12 @@
-import React, { createContext, useContext, useState, useCallback, useMemo, useEffect, type ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  type ReactNode,
+} from "react";
 import { questions, type Language, type Question } from "@/data/questions";
 import { type Domain, type UserStats, initialUserStats } from "@/types/quiz";
 import { supabase } from "@/integrations/supabase/client";
@@ -67,6 +75,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         .from("user_answers")
         .select("question_id, selected_answer, is_correct, time_spent")
         .eq("user_id", user.id)
+        .eq("mode", "training")
         .order("answered_at", { ascending: true });
       if (error || cancelled || !data) return;
       // Keep only the latest answer per question
@@ -113,7 +122,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
           });
       }
     },
-    [user]
+    [user],
   );
 
   const completeQuiz = useCallback(() => {
@@ -169,7 +178,17 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
   return (
     <QuizContext.Provider
-      value={{ language, setLanguage, allQuestions: questions, userStats, previousStats, answers, recordAnswer, completeQuiz, resetStats }}
+      value={{
+        language,
+        setLanguage,
+        allQuestions: questions,
+        userStats,
+        previousStats,
+        answers,
+        recordAnswer,
+        completeQuiz,
+        resetStats,
+      }}
     >
       {children}
     </QuizContext.Provider>

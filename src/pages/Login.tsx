@@ -12,6 +12,12 @@ import { lovable } from "@/integrations/lovable";
 import { Zap, Mail, Lock, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+function getAppUrl(path = "/") {
+  const configuredUrl = import.meta.env.VITE_PUBLIC_APP_URL;
+  const baseUrl = configuredUrl || window.location.origin;
+  return new URL(path, baseUrl).toString();
+}
+
 const Login = () => {
   const { user, loading } = useAuth();
   const { toast } = useToast();
@@ -40,7 +46,7 @@ const Login = () => {
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: getAppUrl(),
             data: { full_name: fullName },
           },
         });
@@ -49,7 +55,7 @@ const Login = () => {
         setMode("signin");
       } else if (mode === "forgot") {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/reset-password`,
+          redirectTo: getAppUrl("/reset-password"),
         });
         if (error) throw error;
         toast({ title: "E-mail enviado", description: "Verifique sua caixa de entrada para redefinir a senha." });
@@ -71,7 +77,7 @@ const Login = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: window.location.origin,
+          redirectTo: getAppUrl(),
         },
       });
       if (error) throw error;

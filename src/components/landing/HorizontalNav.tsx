@@ -1,7 +1,16 @@
 import { Link, useLocation } from "@/lib/router-compat";
 import { translations, languageLabels } from "@/data/translations";
 import type { Language } from "@/data/questions";
-import { Home, Award, PlayCircle, GraduationCap, FlaskConical, Globe, LogOut } from "lucide-react";
+import {
+  Home,
+  Award,
+  PlayCircle,
+  GraduationCap,
+  FlaskConical,
+  Globe,
+  LogOut,
+  ShieldCheck,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "@tanstack/react-router";
@@ -21,11 +30,14 @@ interface HorizontalNavProps {
   onLanguageChange?: (lang: Language) => void;
 }
 
-
-export function HorizontalNav({ language, onScrollToSection, onLanguageChange }: HorizontalNavProps) {
+export function HorizontalNav({
+  language,
+  onScrollToSection,
+  onLanguageChange,
+}: HorizontalNavProps) {
   const t = translations[language];
   const location = useLocation();
-  const { user, signOut } = useAuth();
+  const { user, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -38,13 +50,17 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
     { label: t.navTraining, icon: PlayCircle, href: "/training", isLink: true },
     { label: t.navExam, icon: GraduationCap, href: "/exam", isLink: true },
     { label: t.navLab, icon: FlaskConical, href: "/lab", isLink: true },
+    ...(isAdmin ? [{ label: "Admin", icon: ShieldCheck, href: "/admin", isLink: true }] : []),
   ];
 
   return (
     <nav className="bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/70 border-b border-border sticky top-0 z-40 shadow-sm">
       <div className="container flex items-center gap-1 sm:gap-2 py-1.5">
         {/* Brand */}
-        <Link to="/" className="flex items-center gap-2 pr-2 sm:pr-3 mr-1 border-r border-border/60 shrink-0">
+        <Link
+          to="/"
+          className="flex items-center gap-2 pr-2 sm:pr-3 mr-1 border-r border-border/60 shrink-0"
+        >
           <img src={fabricLogo.url} alt="Microsoft Fabric" className="h-7 w-7 object-contain" />
           <span className="hidden sm:inline text-sm font-bold tracking-tight text-foreground">
             DP-600
@@ -66,7 +82,7 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
                       "flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
                       isActive
                         ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
@@ -97,7 +113,11 @@ export function HorizontalNav({ language, onScrollToSection, onLanguageChange }:
           {onLanguageChange && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground px-1.5 sm:px-3">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground px-1.5 sm:px-3"
+                >
                   <Globe className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">{languageLabels[language]}</span>
                 </Button>

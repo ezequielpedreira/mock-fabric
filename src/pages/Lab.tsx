@@ -1,15 +1,27 @@
-import { useQuiz } from '@/contexts/QuizContext';
-import { Header } from '@/components/quiz/Header';
-import { HorizontalNav } from '@/components/landing/HorizontalNav';
+import { useQuiz } from "@/contexts/QuizContext";
+import { Header } from "@/components/quiz/Header";
+import { HorizontalNav } from "@/components/landing/HorizontalNav";
+import { LabQuestionBank } from "@/components/lab/LabQuestionBank";
 
-import { translations } from '@/data/translations';
-import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { translations } from "@/data/translations";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import {
-  ExternalLink, Clock, BookOpen, FlaskConical,
-  Database, Warehouse, Sparkles, Zap, Brain,
-  GraduationCap, Award, Layers, Route, PlayCircle
-} from 'lucide-react';
+  ExternalLink,
+  Clock,
+  BookOpen,
+  FlaskConical,
+  Database,
+  Warehouse,
+  Sparkles,
+  Zap,
+  Brain,
+  GraduationCap,
+  Award,
+  Layers,
+  Route,
+  PlayCircle,
+} from "lucide-react";
 
 interface LabModule {
   title: string;
@@ -23,7 +35,7 @@ interface LabModule {
 
 interface YouTubeItem {
   id: string;
-  type: 'playlist' | 'video';
+  type: "playlist" | "video";
   title: string;
 }
 
@@ -58,7 +70,8 @@ function LevelBadge({ level }: { level: string }) {
 const introModules: LabModule[] = [
   {
     title: "Introdução à análise de ponta a ponta usando o Microsoft Fabric",
-    description: "Descubra como o Microsoft Fabric pode atender às necessidades de análise da sua empresa em uma só plataforma.",
+    description:
+      "Descubra como o Microsoft Fabric pode atender às necessidades de análise da sua empresa em uma só plataforma.",
     duration: "20 min",
     level: "Iniciante",
     type: "Módulo",
@@ -67,7 +80,8 @@ const introModules: LabModule[] = [
   },
   {
     title: "Introdução aos lakehouses no Microsoft Fabric",
-    description: "Lakehouses combinam a flexibilidade do data lake com a análise do data warehouse. O Fabric oferece uma solução lakehouse para análise abrangente.",
+    description:
+      "Lakehouses combinam a flexibilidade do data lake com a análise do data warehouse. O Fabric oferece uma solução lakehouse para análise abrangente.",
     duration: "59 min",
     level: "Intermediário",
     type: "Módulo",
@@ -76,7 +90,8 @@ const introModules: LabModule[] = [
   },
   {
     title: "Introdução aos data warehouses no Microsoft Fabric",
-    description: "Data warehouses são repositórios analíticos baseados em esquema relacional para consultas SQL. O Fabric permite criar um data warehouse relacional no seu workspace.",
+    description:
+      "Data warehouses são repositórios analíticos baseados em esquema relacional para consultas SQL. O Fabric permite criar um data warehouse relacional no seu workspace.",
     duration: "1 h 13 min",
     level: "Iniciante",
     type: "Módulo",
@@ -88,7 +103,8 @@ const introModules: LabModule[] = [
 const implementModules: LabModule[] = [
   {
     title: "Implementar um Lakehouse com o Microsoft Fabric",
-    description: "Aprenda a implementar e gerenciar um lakehouse completo, incluindo ingestão de dados, transformação com Spark e orquestração com pipelines.",
+    description:
+      "Aprenda a implementar e gerenciar um lakehouse completo, incluindo ingestão de dados, transformação com Spark e orquestração com pipelines.",
     duration: "7 h 16 min",
     level: "Intermediário",
     type: "Roteiro de aprendizagem",
@@ -97,7 +113,8 @@ const implementModules: LabModule[] = [
   },
   {
     title: "Implementar um data warehouse com o Microsoft Fabric",
-    description: "Aprenda a modelar, carregar e consultar dados em um data warehouse do Fabric usando T-SQL e pipelines de dados.",
+    description:
+      "Aprenda a modelar, carregar e consultar dados em um data warehouse do Fabric usando T-SQL e pipelines de dados.",
     duration: "5 h 57 min",
     level: "Iniciante",
     type: "Roteiro de aprendizagem",
@@ -105,8 +122,10 @@ const implementModules: LabModule[] = [
     icon: <Warehouse className="h-5 w-5" />,
   },
   {
-    title: "Implementar uma solução de ciência de dados e aprendizado de máquina para IA no Microsoft Fabric",
-    description: "Explore como usar ciência de dados e machine learning no Fabric para criar modelos preditivos e soluções de IA.",
+    title:
+      "Implementar uma solução de ciência de dados e aprendizado de máquina para IA no Microsoft Fabric",
+    description:
+      "Explore como usar ciência de dados e machine learning no Fabric para criar modelos preditivos e soluções de IA.",
     duration: "5 h 27 min",
     level: "Iniciante",
     type: "Roteiro de aprendizagem",
@@ -115,7 +134,8 @@ const implementModules: LabModule[] = [
   },
   {
     title: "Implemente inteligência em tempo real com Microsoft Fabric",
-    description: "Aprenda a ingerir, processar e visualizar dados em tempo real usando Real-Time Intelligence no Microsoft Fabric.",
+    description:
+      "Aprenda a ingerir, processar e visualizar dados em tempo real usando Real-Time Intelligence no Microsoft Fabric.",
     duration: "5 h 31 min",
     level: "Iniciante",
     type: "Roteiro de aprendizagem",
@@ -126,7 +146,8 @@ const implementModules: LabModule[] = [
 
 const instructorCourse: LabModule = {
   title: "Engenheiro de Análise do Microsoft Fabric",
-  description: "Curso oficial DP-600T00 ministrado por instrutor. Aprenda no seu próprio ritmo com treinamento em sala de aula.",
+  description:
+    "Curso oficial DP-600T00 ministrado por instrutor. Aprenda no seu próprio ritmo com treinamento em sala de aula.",
   duration: "",
   level: "Avançado",
   type: "Curso",
@@ -136,7 +157,8 @@ const instructorCourse: LabModule = {
 
 const certification: LabModule = {
   title: "Engenheiro Associado de Análise em Fabric Certificado pela Microsoft",
-  description: "Após concluir seu treinamento, faça uma avaliação prática para ver se você está pronto para o exame de credenciamento.",
+  description:
+    "Após concluir seu treinamento, faça uma avaliação prática para ver se você está pronto para o exame de credenciamento.",
   duration: "",
   level: "Intermediário",
   type: "Certificação",
@@ -145,9 +167,21 @@ const certification: LabModule = {
 };
 
 const englishPlaylists: YouTubeItem[] = [
-  { id: "PLcwrIWK7WBcRiRqPAvdAKlhrXd0oV19nl", type: "playlist", title: "DP-600 Microsoft Fabric - Study Playlist" },
-  { id: "PL-EF1-xTPq0Q-9HSr0yy1-JT7wtIrwpdX", type: "playlist", title: "Microsoft Fabric DP-600 Preparation" },
-  { id: "PLug2zSFKZmV05ZJcmHemXxyJjPVXeQ2qS", type: "playlist", title: "Microsoft Fabric Tutorial Series" },
+  {
+    id: "PLcwrIWK7WBcRiRqPAvdAKlhrXd0oV19nl",
+    type: "playlist",
+    title: "DP-600 Microsoft Fabric - Study Playlist",
+  },
+  {
+    id: "PL-EF1-xTPq0Q-9HSr0yy1-JT7wtIrwpdX",
+    type: "playlist",
+    title: "Microsoft Fabric DP-600 Preparation",
+  },
+  {
+    id: "PLug2zSFKZmV05ZJcmHemXxyJjPVXeQ2qS",
+    type: "playlist",
+    title: "Microsoft Fabric Tutorial Series",
+  },
   { id: "t_bykXb5FwE", type: "video", title: "DP-600 Exam Tips" },
 ];
 
@@ -174,11 +208,13 @@ function YouTubeEmbed({ item }: { item: YouTubeItem }) {
       </div>
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-sm font-semibold text-foreground leading-tight">
-            {item.title}
-          </h3>
+          <h3 className="text-sm font-semibold text-foreground leading-tight">{item.title}</h3>
           <a
-            href={item.type === "playlist" ? `https://youtube.com/playlist?list=${item.id}` : `https://youtu.be/${item.id}`}
+            href={
+              item.type === "playlist"
+                ? `https://youtube.com/playlist?list=${item.id}`
+                : `https://youtu.be/${item.id}`
+            }
             target="_blank"
             rel="noopener noreferrer"
             className="shrink-0 text-muted-foreground hover:text-primary transition-colors"
@@ -212,9 +248,7 @@ const LabCard = ({ mod, className }: { mod: LabModule; className?: string }) => 
           </div>
           <ExternalLink className="h-4 w-4 text-muted-foreground shrink-0 mt-1 group-hover:text-primary transition-colors" />
         </div>
-        <p className="text-sm text-muted-foreground line-clamp-2 pl-[52px]">
-          {mod.description}
-        </p>
+        <p className="text-sm text-muted-foreground line-clamp-2 pl-[52px]">{mod.description}</p>
         <div className="flex items-center gap-3 text-xs text-muted-foreground pt-1 pl-[52px] flex-wrap">
           <span className="px-2 py-0.5 rounded-full bg-accent/10 border border-primary/10 font-medium">
             {mod.type}
@@ -248,13 +282,11 @@ const Lab = () => {
               <FlaskConical className="h-4 w-4" />
               Microsoft Learn
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-              {t.navLab}
-            </h1>
-            <p className="text-muted-foreground">
-              {t.labDescription}
-            </p>
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t.navLab}</h1>
+            <p className="text-muted-foreground">{t.labDescription}</p>
           </div>
+
+          <LabQuestionBank />
 
           {/* Introdução ao Microsoft Fabric */}
           <div className="mb-12 border-2 border-border/50 rounded-2xl p-6">
@@ -263,8 +295,13 @@ const Lab = () => {
                 <Route className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-foreground">Introdução ao Microsoft Fabric</h2>
-                <p className="text-sm text-muted-foreground">Saiba mais sobre o Microsoft Fabric, como ele funciona e identifique como usá-lo para suas necessidades de análise.</p>
+                <h2 className="text-xl font-bold text-foreground">
+                  Introdução ao Microsoft Fabric
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Saiba mais sobre o Microsoft Fabric, como ele funciona e identifique como usá-lo
+                  para suas necessidades de análise.
+                </p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -292,8 +329,13 @@ const Lab = () => {
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-foreground">Implemente soluções com o Microsoft Fabric</h2>
-                <p className="text-sm text-muted-foreground">Roteiros de aprendizagem completos para implementar soluções de dados no Microsoft Fabric.</p>
+                <h2 className="text-xl font-bold text-foreground">
+                  Implemente soluções com o Microsoft Fabric
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Roteiros de aprendizagem completos para implementar soluções de dados no Microsoft
+                  Fabric.
+                </p>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -312,8 +354,12 @@ const Lab = () => {
                   <GraduationCap className="h-5 w-5" />
                 </div>
                 <div className="min-w-0">
-                  <h2 className="text-xl font-bold text-foreground">Treinamento ministrado por instrutor</h2>
-                  <p className="text-sm text-muted-foreground">Escolha uma configuração tradicional de treinamento em sala de aula.</p>
+                  <h2 className="text-xl font-bold text-foreground">
+                    Treinamento ministrado por instrutor
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    Escolha uma configuração tradicional de treinamento em sala de aula.
+                  </p>
                 </div>
               </div>
               <a
@@ -370,7 +416,10 @@ const Lab = () => {
                 </div>
                 <div className="min-w-0">
                   <h2 className="text-xl font-bold text-foreground">Tornar-se certificado</h2>
-                  <p className="text-sm text-muted-foreground">Após concluir seu treinamento, faça uma avaliação prática para ver se você está pronto para o exame.</p>
+                  <p className="text-sm text-muted-foreground">
+                    Após concluir seu treinamento, faça uma avaliação prática para ver se você está
+                    pronto para o exame.
+                  </p>
                 </div>
               </div>
               <a
@@ -428,7 +477,9 @@ const Lab = () => {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-foreground">{t.recommendedPlaylists}</h2>
-                <p className="text-sm text-muted-foreground">Vídeos e playlists do YouTube para complementar seus estudos.</p>
+                <p className="text-sm text-muted-foreground">
+                  Vídeos e playlists do YouTube para complementar seus estudos.
+                </p>
               </div>
             </div>
 
